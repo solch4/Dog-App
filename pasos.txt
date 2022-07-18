@@ -1,0 +1,13 @@
+1) Creamos archivo .env y copiamos y pegamos lo del readme (DB_USER, DB_PASSWORD, DB_HOST)
+2) Treaemos a el archivo .env los datos de la api (API_KEY y API_URL, metemos el archivo en .gitignore para q no nos chorien todo)
+3) Creamos db en el pgadmin con el nombre indicado en el readme
+4) En el db.js crea la base de datos (línea 9 de db.js)
+5) Crear tabla de dogs (propiedades del objeto de la db) 
+creamos la tabla de temperamentos 
+7) Npm start en la carpeta api 
+8) Checkeamos que en el pgadmin que estén creadas
+9) Empezamos a hacer las relaciones en el db.js: 
+    Dog.belongsToMany(Temperaments, {through: 'dog_temperaments'})
+    Temperaments.belongsToMany(Dog, {through: 'dog_temperaments'})
+10) Vamos al pgadmin y le damos refresh en tables. debería tener las 2 tablas y la tabla intermedia 'dog_temperaments'
+
