@@ -1,13 +1,47 @@
-1) Creamos archivo .env y copiamos y pegamos lo del readme (DB_USER, DB_PASSWORD, DB_HOST)
-2) Treaemos a el archivo .env los datos de la api (API_KEY y API_URL, metemos el archivo en .gitignore para q no nos chorien todo)
-3) Creamos db en el pgadmin con el nombre indicado en el readme
-4) En el db.js crea la base de datos (línea 9 de db.js)
-5) Crear tabla de dogs (propiedades del objeto de la db) 
+Creamos archivo .env y copiamos y pegamos lo del readme (DB_USER, DB_PASSWORD, DB_HOST)
+Treaemos a el archivo .env los datos de la api (API_KEY y API_URL, metemos el archivo en .gitignore para q no nos chorien todo)
+Creamos db en el pgadmin con el nombre indicado en el readme
+En el db.js crea la base de datos (línea 9 de db.js)
+Crear tabla de dogs (propiedades del objeto de la db) 
 creamos la tabla de temperamentos 
-7) Npm start en la carpeta api 
-8) Checkeamos que en el pgadmin que estén creadas
-9) Empezamos a hacer las relaciones en el db.js: 
+Npm start en la carpeta api 
+Checkeamos que en el pgadmin que estén creadas
+Empezamos a hacer las relaciones en el db.js: 
     Dog.belongsToMany(Temperaments, {through: 'dog_temperaments'})
     Temperaments.belongsToMany(Dog, {through: 'dog_temperaments'})
-10) Vamos al pgadmin y le damos refresh en tables. debería tener las 2 tablas y la tabla intermedia 'dog_temperaments'
+Vamos al pgadmin y le damos refresh en tables. debería tener las 2 tablas y la tabla intermedia 'dog_temperaments'
+Instalamos axios
+Creamos carpeta controllers en src y requerimos:
+    axios const axios = require("axios");
+    las dos tablas const { Dog, Temperaments } = require("../db.js");
+    la API_KEY y API_URL const { API_KEY, API_URL } = process.env;
+En los controllers vamos a hacer funciones:
+    1 traemos todo lo q  tiene la api, await axios.get a todo lo de la api
+    2 taremos lo q tiene la db 
+    3 concatenamos la data de ambos controllers en una sola func
+en routes requerimos
+    const { dataApi, dataDB, getAll } = require('../controllers/controllers.js')
+    const { Dog, Temperaments } = require("../db.js");
 
+
+    
+get para traer ñps temperamentos a la base
+
+
+
+
+
+
+
+---------------------------------FIN DEL BACK END---------------------------------------
+
+creamos las carpetas components, assets, reducers, actions, styles, store
+
+1) creamos el store con createStore. no lo tocamos más
+2) en el index de client, envolvemos todo en el provider. es para q funcione redux y x lo tanto el store. no lo tocamos más
+3) app.js. importamos 
+4) home.js configuramos el dispatch y useselector 
+5) actions.js. conectamos back con front !!!!!! con useSelector traemos el state que construimos en el reducer, esto se construye con las actions que conectan con el back
+6) home.js dispachamos la action con el useEffect
+7) hacemos el paginado en home
+ 
