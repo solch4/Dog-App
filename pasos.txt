@@ -1,47 +1,142 @@
-Creamos archivo .env y copiamos y pegamos lo del readme (DB_USER, DB_PASSWORD, DB_HOST)
-Treaemos a el archivo .env los datos de la api (API_KEY y API_URL, metemos el archivo en .gitignore para q no nos chorien todo)
-Creamos db en el pgadmin con el nombre indicado en el readme
-En el db.js crea la base de datos (línea 9 de db.js)
-Crear tabla de dogs (propiedades del objeto de la db) 
-creamos la tabla de temperamentos 
-Npm start en la carpeta api 
-Checkeamos que en el pgadmin que estén creadas
+Creamos archivo .env y copiamos y pegamos lo del readme (DB_USER, DB_PASSWORD, DB_HOST).
+Treaemos a el archivo .env los datos de la api (API_KEY y API_URL, metemos el archivo en .gitignore para q no nos chorien todo).
+
+
+---------------------------- INICIO DEL BACK END -----------------------------
+$cd api
+
+---------- Inicio de la DB ----------
+Abrimos pgadmin y creamos la db con el nombre indicado en el readme.
+En el db.js se crea la base de datos (línea 9 de db.js).
+En la carpeta de models, crear tabla de 'dogs' con todas sus propiedades como están indicadas en el readme. En el readme no lo aclara, pero en 'dogs' se puede crear una propiedad llamada 'createdInDB' q sea un booleano para diferenciar los dogs q me trae la api de los dogs creados en la db. esto ahorrará problemas a futuro (x ej si coinciden 2 ids).
+Luego en la carpeta de models creamos la tabla de 'temperaments' con las props q indica el readme (el id lo crea solo el pgadmin, no es necesario escribirlo. no vamos a tener otros datos de temperamnetos, solo los q tenemos en la db, asiq no hay problemas).
+Npm start en la carpeta api para levantar el BackEnd (ergo poder ver las tablas en el pgadmin).
+Checkeamos que en el pgadmin que estén creadas.
 Empezamos a hacer las relaciones en el db.js: 
-    Dog.belongsToMany(Temperaments, {through: 'dog_temperaments'})
-    Temperaments.belongsToMany(Dog, {through: 'dog_temperaments'})
-Vamos al pgadmin y le damos refresh en tables. debería tener las 2 tablas y la tabla intermedia 'dog_temperaments'
-Instalamos axios
-Creamos carpeta controllers en src y requerimos:
-    axios const axios = require("axios");
-    las dos tablas const { Dog, Temperaments } = require("../db.js");
-    la API_KEY y API_URL const { API_KEY, API_URL } = process.env;
-En los controllers vamos a hacer funciones:
-    1 traemos todo lo q  tiene la api, await axios.get a todo lo de la api
-    2 taremos lo q tiene la db 
-    3 concatenamos la data de ambos controllers en una sola func
-en routes requerimos
+    1) Importamos los modelos (faltaba Temperaments). Esa línea es FUNDAMENTAL, me trae los modelos de sequelize. Sin ella no podemos generar las relaciones.
+        const { Dog, Temperaments } = sequelize.models;
+    2) Las relaciones son de muchos a muchos (un dog puede tener más de un temperament y un temperament puede pertenecer a más de un dog). Se usaría un 'belongsToMany', y se va a relacionar through una tabla intermedia q vamos a llamar 'dog_temperaments' (q se crea en este mismo momento)
+        Dog.belongsToMany(Temperaments, {through: 'dog_temperaments'});
+        Temperaments.belongsToMany(Dog, {through: 'dog_temperaments'});
+Vamos al pgadmin y le damos refresh en tables. Debería tener las 2 tablas y la tabla intermedia 'dog_temperaments'. Esa tabla tiene dogId y temperamentId.
+---------- Fin de la DB (db.js) ----------
+
+---------- Inicio de Routes ----------
+Vamos a routes. Aquí tenemos la opción de traer los primeros 8 dogs o directamente podemos traerlos a todos y en el front hacemos el paginado. También podemos elegir hacer los filtros y ordenamientos acá o en el front.
+Lo ideal es modularizar y hacer un archivo x c/ tipo de ruta.
+Creamos carpeta controllers en src e instalamos axios (en api). Armamos funciones controladoras q traigan la info, dsp en las rutas simplemente la invocamos.
+En controllers.js requerimos:
+    1) axios
+        const axios = require("axios");
+    2) las dos tablas
+        const { Dog, Temperaments } = require("../db.js");
+    3) la API_KEY y API_URL 
+        const { API_KEY, API_URL } = process.env;
+En controllers.js vamos a hacer 3 funciones:
+    1) Traemos toda la data de la api con await axios.get('url') y retornamos solamente la info q nos pide el readme. Podemos elegir el nombre de las props y hacer q coincidan con los de la DB.
+    2) Traemos lo q tiene la DB. La func es async. Usamos el modelo con un .findAll(). 
+        Traemos los q incluyen el model: Temperaments, esto es para q se pueda hacer la relación, si dsp quiero crear un dog y no incluyo ese modelo nunca me va a traer el dog con el temperament. 'Traeme el modelo de Temperaments mediante el attributes 'name' (el id se pasa solo)'.
+        Incluime el modelo Temperaments, yo quiero q me traigas todos los dogs pero q además me incluyas este modelo Temperaments. y de este modelo Temperaments traeme este attributes 'name'. Si yo vuelvo al modelo, Temperaments tiene el attribute 'name', y yo quiero q me traiga el 'name' de ese temperament. Entonces simplemente acá le digo "traeme este modelo Temperaments mediante el 'name', es decir traeme el dog y el 'name' del temperament".
+        El through me dice "mediante los atributos". es una comprobación que se hace cuando vos te querés traer el atributo de antes ('name'). Va siempre.
+            await Dog.findAll({
+                include: {
+                    model: Temperaments,
+                    attributes: ['name'],
+                    through: {
+                            attributes: []
+                    }
+                }
+            })
+    3) Concatenamos la data de ambos controllers en una sola func.
+        const infoDataApi = await dataApi()
+        const infoDataDB = await dataDB()
+        const allData = infoDataApi.concat(infoDataDB)
+        return allData
+    Nota: Podríamos hacer esta lógica en routes pero es mejor tenerla aparte e importarla para q quede limpio y se pueda reutilizar.
+En routes requerimos los controllers y los models
     const { dataApi, dataDB, getAll } = require('../controllers/controllers.js')
     const { Dog, Temperaments } = require("../db.js");
+Definimos las rutas del readme. Para esto es mejor setear el force en false en api/index.js, sino tendríamos q llamar primero a la ruta de '/temperaments' para poder trabajar con el post de '/dogs' y es un lío.
+    - Las 2 rutas de GET de '/dogs' y '/dogs/?query=query' se pueden hacer en una sola. Recordar pasar a minús tanto la query como la info nuestra al hacer el .filter() (no se puede obligar al usuario a buscar un nombre con mayús). Además, en el filter se hace un .includes() en lugar de un === para tener una búsqueda más amplia/global (x ej si busco 'can' me trae todos los dogs q incluyan ese string al principio, medio o final como todos los dogs con 'american').
+    - En el caso de la ruta GET /temperaments, consulta una única vez (si tenemos el force en false, si lo tenemos en true lo hace cada vez q levantamos el BackEnd) a la api y guarda todo en la db para poder consumir la info directamente desde ahí (si hacemos un get en postman, automáticamente se guarda todo en la db, lo podemos ver en el pgadmin).
+    - En la ruta GET de '/dogs/:idRaza', tener en cuenta q el id me llega como string (debo usar == o .parseInt())
+    - En la ruta POST '/dogs' tengo q hacer el post con todo lo q me llega x body. Desestructuro lo q me viene x body, en una const creo un nuevo dog (Dog.create({})) con todo lo q me pasaron menos temperaments, ya que lo tengo q encontrar en el modelo Temperaments con todos los temperaments (Temperaments.findAll({where:{name: temperaments}})) => "encontrá todos los Temperaments que coincidan con lo q yo le estoy pasando x body". Finalmente al dog creado le agrego el temperamento encontrado (newDog.addTemperaments(temperamentAux)). La idea de preguntarle al model de Temperaments sus temperaments es q cuando haga el front, le dé al usuario las opciones q yo ya tengo en la db y q elija una, no q me meta cualq cosa y cree algo nuevo. Ojo q si tenemos el force en true se me van a borrar los post cuando tire el servidor, x eso es mejor setearlo en false.
+En la ruta de post se puede validar el formulario. También se puede hacer en el front o en ambos para más seguridad.
+---------- Fin de Routes ----------
+
+------------------------------ FIN DEL BACK END ------------------------------
 
 
+---------------------------- INICIO DEL FRONT END ----------------------------
+$cd client
+
+Además de las dependencias ya configuradas, instalamos: react-router-dom, redux, react-redux, redux-thunk, redux-devtools-extension, axios.
+Creamos las carpetas components, assets, reducers, actions, styles, store.
+
+En la carpeta store, importamos lo necesario y creamos el store con createStore. No lo tocamos más.
+    import { createStore, applyMiddleware } from 'redux';
+    import { composeWithDevTools } from 'redux-devtools-extension';
+    import thunk from 'redux-thunk';
+    import rootReducer from '../reducers';
+    export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
+En index.js importamos el provider, el store y envolvemos toda la <App> en <Provider store={store}></Provider>. Es para q funcione redux y x lo tanto el store. No lo tocamos más.
+    import { Provider } from 'react-redux'
+    import { store } from './store/store.js'
+En la carpeta components creamos todos los componentes necesarios (card, contenedor de card, formulario, detalle, filtros, home, landingpage, paginado, searchbar).
+En app.js importamos BrowserRouter, Route y Routes (o en lugar de Routes el Switch, depende la versión). Tmb importamos los componentes. El BrowserRouter envuelve todo.
+    import { BrowserRouter, Route, Routes } from "react-router-dom";
+Creamos la landing page con un button dentro de un Link q nos lleve a '/home'. Respecto a la imagen, en index.css podríamos poner en body background: url('url.com') pero quedaría ese fondo para toda la app.
+En actions.js armamos de a poco las acciones. Se puede trabajar con promesas o async-await. El home necesitaría en un principio la ruta q devuelve todos los dogs.
+    Ej: Si queremos una acción que nos traiga todos los dogs, debemos pasarle a axios.get la url del back que nos devuelve todos los dogs.
+NOTA IMPORTANTE: en las acciones conectamos back con front!!!!!! (con useSelector traemos el state que construimos en el reducer, esto se construye con las actions que conectan con el back.)
+En el reducer inicializamos el estado, que es un objeto. Lo armamos de a poco de acuerdo a lo que necesitamos. Luego a la func rootReducer le paso (state=initialState, action) para dsp hacer el switch.
+
+---------- Armado de home.js y los componentes q renderiza ----------
+Armado de home.js (armamos de a poco c/ componente e importamos)
+    Importamos los hooks (useState, useEffect), useDispatch, useSelector y las acciones. Luego configuramos el dispatch y useselector (dispachamos la action() con el useEffect).
+        -Hacer esto:
+            const dispatch = useDispatch();
+            const allDogs = useSelector((state) => state.allDogs);
+            useEffect(() => {
+                 dispatch(getDogs());
+            }, [dispatch]);
+        -es lo mismo q hacer el mapSteteToProps y mapDispatchToProps pero con hooks.
+    Importamos {Link} y hacemos un 'algo' q nos lleve a la ruta de creación.
+    Hacemos un button de refresh (actualza la pag x si se buguea, tmb borra los filtros).
+    Hacemos los filtros, que DEBEN tener un value para hacer funcionar la lógica más tarde en el reducer. Es importante que además tengan lo mismo q en la api.
+    Importamos de a poco los componentes.
+    Renderizamos Card. Habría q mapear todalainfo y retornar una Card con esas props x cada elemento.
+    Hacemos el ruteo de a poco.
+
+En App.js importamos los componentes de a poco y armamos el ruteo (sin el ruteo no podemos ver la pag). Dentro de <BrowserRouter> hacemos <Routes> y luego cada <Route path='/path' element={<Component />} />, o usamos un <Switch> en lugar de <Routes> con la otra versión.
+    Nota: el switch es más piola, si entras a una ruta nadakeve no te tira error, sino q se mueve dentro de las rutas q vos definiste y te deriva a la última opción.
+Paginado en home.js. Usamos estados locales. Creamos const q nos digan la pag actual, las cards por pag, el index de la últ card, el index de la 1ra card, y recorto el array con toda la info según esos índices. También hacemos una func para setear la página actual.
+    const [actualPage, setActualPage] = useState(1); //arrancamos desde la page 1
+    const [dogsPerPage, setDogsPerPage] = useState(8); //cuantos dogs muestro por page según el readme
+    const indexOfLastDog = actualPage * dogsPerPage; //index del último perro q muestro en la pag
+    const indexOfFirstDog = indexOfLastDog - dogsPerPage; //index del 1er perro q muestro en la pag
+    const actualDogs = allDogs.slice(indexOfFirstDog, indexOfLastDog); //recortamos el arreglo con todos los dogs
+    const pages = (pageNumber) => {
+        setActualPage(pageNumber);
+    };
+Al componente Pages.js hay q pasarle las cards q renderizo x pág, todalainfo y la func para setear el num de pag. Armo la lógica para renderizar con eso el listado de números.
+En home.js renderizamos el componente de paginado. Tener en cuenta q a las cards las debemos renderizar según mi num de pág y no todo.
+Generalmente, para c/ cosa q queramos hacer en el front vamos a tener q armar la action correspondiente y dsp el reduce. Luego en c/ componente se usa el useSelector o el useDispatch.
+Comenzamos a armar la lógica de los filtros. Para eso es necesario que cada opción tenga un value. Recordá que es mejor q sean igual al de la api.
+    Lo primero que hacemos son las acciones. Podemos hacer de a una e ir probando si funcan. Recordar pasarles x param el value (payload).
+    Vamos al reducer y armamos el case con la lógica para poder filtrar y retornar eso. Hacemos un todalainfo.filter(e => e.algo === action.payload). Por esto hacemos q el value de cada opción sea igual al de la api.
+    En el componente de los filtros, importamos la action y hacemos un handlefilter que despache e.target.value, ergo la acción, cuando el usuario seleccione una opción (onChange={e => handleFilter(e)}).
+Nota: la lógica NO va en action.js !! Ella solamente se encarga de despachar la acción con su type y payload. Si necesito aplicar lógica se lo hace en el reducer o componente.
+Hacemos el ordenamiento en home.js. 
+    Creamos la action.
+    Creamos la lógica del reducer. Usamos un sort y preguntamos de si a > b o no. Retornamos el state con dogs ordenado.
+    En home.js (o donde hagamos el sort) hacemos la func handlesort que dispache la acción recién creada pasándole e.target.value. También seteamos la actualPage en 1 y seteamos el orden con un 'ordenado e.target.value'. Esto para cambiar el estado y que se vuelva a renderizar la pág, sino pareciera q no funca.
+Comenzamos con el armado de la SearchBar.js.
+    En actions traemos la ruta del back q nos devuelve los names (axios.get('url(characters?name=name')) y dispachamos.
     
-get para traer ñps temperamentos a la base
 
 
 
 
 
 
-
----------------------------------FIN DEL BACK END---------------------------------------
-
-creamos las carpetas components, assets, reducers, actions, styles, store
-
-1) creamos el store con createStore. no lo tocamos más
-2) en el index de client, envolvemos todo en el provider. es para q funcione redux y x lo tanto el store. no lo tocamos más
-3) app.js. importamos 
-4) home.js configuramos el dispatch y useselector 
-5) actions.js. conectamos back con front !!!!!! con useSelector traemos el state que construimos en el reducer, esto se construye con las actions que conectan con el back
-6) home.js dispachamos la action con el useEffect
-7) hacemos el paginado en home
- 

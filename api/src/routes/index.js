@@ -13,7 +13,6 @@ const router = Router();
 /* [ ] GET /dogs:
 Obtener un listado de las razas de perro
 Debe devolver solo los datos necesarios para la ruta principal */
-//si pasan x query un perro se fija si lo tiene, si es así lo devuelve sino devuelve todo
 /* [ ] GET /dogs?name="...":
 Obtener un listado de las razas de perro que contengan la palabra ingresada como query parameter
 Si no existe ninguna raza de perro mostrar un mensaje adecuado */
@@ -21,7 +20,8 @@ router.get('/dogs', async (req, res) => {
   const dogName = req.query.name
   const allDogs = await getAll()
   if(dogName){
-    const filteredDog = await allDogs.filter(dog => dog.name.toLowerCase().includes(dogName.toLowerCase()))
+    //si pasan x query un perro se fija si lo tiene, si es así lo devuelve sino devuelve todo
+    const filteredDog = await allDogs.filter(dog => dog.name.toLowerCase().includes(dogName.toLowerCase())) //x ej si buscan 'mal' tendía más de una raza con esa mini palabra, x eso se hace un filter, para devolver todas las coincidencias. x eso también se pregunta si dog.name.includes('mal'), para encontrar todas las razas q contengan un 'mal'
     filteredDog ? 
     res.status(200).send(filteredDog) :
     res.status(404).send('Dog not found')
@@ -50,32 +50,40 @@ router.get('/dogs/:id', async(req, res) => {
 Recibe los datos recolectados desde el formulario controlado de la ruta de creación de raza de perro por body
 Crea una raza de perro en la base de datos relacionada con sus temperamentos */
 router.post('/dogs', async (req, res) => {
-  const {name, height, weight, life_span, image, temperaments, DB_created} = req.body
-
-  const newDog = await Dog.create({
-    name, height, weight, life_span, image, DB_created
-  })
-  const temperamentAux = await Temperaments.findAll({
-    where:{
-      name: temperaments
-    }
-  })
-
-  newDog.addTemperaments(temperamentAux)
-  res.status(201).send('Dog created succcessfully!')
+  try {
+    const {name, height_min, height_max, weight_min, weight_max, image, life_span_min, life_span_max, temperaments, DB_created} = req.body
+  
+    const newDog = await Dog.create({
+      name: name[0].toUpperCase() + name.slice(1), 
+      height: `${height_min} - ${height_max}`, 
+      weight: `${weight_min} - ${weight_max}`, 
+      life_span: `${life_span_min} - ${life_span_max} years`, 
+      image, 
+      DB_created
+    })
+    const temperamentAux = await Temperaments.findAll({
+      where:{
+        name: temperaments
+      }
+    })
+  
+    newDog.addTemperaments(temperamentAux)
+    res.status(201).send('Dog created succcessfully!')
+  } catch (e) {
+    console.log(e);
+  }
 })
 
 /* [ ] GET /temperaments:
 Obtener todos los temperamentos posibles
-En una primera instancia deberán obtenerlos desde la API externa y guardarlos en su propia base de datos y 
-luego ya utilizarlos desde allí */
+En una primera instancia deberán obtenerlos desde la API externa y guardarlos en su propia base de datos y luego ya utilizarlos desde allí */
 router.get('/temperaments', async (req,res) => {
   const infoApi = await dataApi()
   const temperaments = infoApi.map(dog => dog.temperaments).join().split(',')
   const temperamentsForDB = temperaments.map(e => e.trim())
   temperamentsForDB.forEach(e => {
     if(e !== '') {
-      Temperaments.findOrCreate({ //va a buscar el elemento en la tabla, si no lo encuentra crea la nueva entrada. método de sequelize
+      Temperaments.findOrCreate({ //método de sequelize. va a buscar el elemento en la tabla, si no lo encuentra crea la nueva entrada
         where: {
           name: e
         }

@@ -62,4 +62,29 @@ export function sortByWeight (payload) {
   }
 }
 
+export function filterByTemperament (payload) {
+  return{
+    type: 'FILTER_BY_TEMPERAMENT',
+    payload
+  }
+}
+
+export function filterCreated (payload) {
+  return{
+    type: 'FILTER_CREATED',
+    payload
+  }
+}
+
+export function createDogs (payload) {
+  return async function (dispatch){
+    var res = await axios.post(`http://localhost:3001/dogs/`, payload)
+    return(
+      dispatch({
+        type: 'CREATE_DOG',
+        payload: res.data
+      })
+    )
+  }
+}
 

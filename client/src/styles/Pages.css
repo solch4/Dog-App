@@ -1,0 +1,19 @@
+.pages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageNumber {
+  align-self: center;
+  text-align: center;
+  list-style: none;
+  /* width: 20px; */
+  /* height: 20px; */
+  color: white;
+  background-color: pink;
+  /* border-radius: 50%; */
+  border: 1px solid;
+  padding: .5rem .5rem;
+  cursor: pointer;
+}

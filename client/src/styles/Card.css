@@ -1,0 +1,10 @@
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.dogImg {
+  max-height: 300px;
+  width: 50%;
+  object-fit: cover;
+}
