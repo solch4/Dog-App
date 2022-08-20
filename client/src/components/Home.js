@@ -7,6 +7,8 @@ import SearchBar from "./SearchBar.js";
 import Filters from "./Filters.js";
 import Card from "./Card.js";
 import Pages from "./Pages.js";
+import Nav from "./Nav.js";
+import '../styles/Home.css'
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -60,91 +62,87 @@ const Home = () => {
   }
 
   return (
-    <div className="containerHome">
-      <h1>Título</h1>
-      <Link to="/">
-        <button>Volver</button>
-      </Link>
+    <div className="App">
+      <Nav setActualPage={setActualPage} />
+      <div className="home-container">
+        <div className="sort-filter-container">
+          {/* sort */}
+          <div className="sort-container">
+            {/* sort by name */}
+            <span>Sort by:&nbsp;</span>
+            <select onChange={handleSortByName}>
+              <option value="ascendente">Name (A-Z)</option>
+              <option value="descendente">Name (Z-A)</option>
+            </select>
+            {/* sort by weight */}
+            <select onChange={handleSortByWeight}>
+              <option value="mayor">Weight (asc)</option>
+              <option value="menor">Weight (desc)</option>
+            </select>
+          </div>
 
-      <SearchBar setActualPage={setActualPage} />
+          {/* filters */}
+          {/* <Filters actualPage={actualPage} setActualPage={setActualPage} /> */}
+          <div className="filter-container">
+            <span>Filter by: </span>
+            <select onChange={(e) => handleFilterTemperaments(e)}>
+              <option key={0} value="all">
+                All temperaments
+              </option>
+              {temperamentsState.length
+                ? temperamentsState.map((t) => (
+                    <option key={t.id} value={t.name}>
+                      {t.name}
+                    </option>
+                  ))
+                : null}
+            </select>
 
-      {/* filters */}
-      {/* <Filters actualPage={actualPage} setActualPage={setActualPage} /> */}
-      <div className="filter-container">
-        <span>Filter by: </span>
-        <select onChange={e => handleFilterTemperaments(e)}>
-          <option key={0} value="all">All temperaments</option>
-          {temperamentsState.length ? temperamentsState.map((t) => (
-            <option key={t.id} value={t.name}>{t.name}</option>
-            )) : null}
-        </select>
+            <select onChange={(e) => handleFilterCreated(e)}>
+              <option value="all">All dogs</option>
+              <option value="created">Created</option>
+              <option value="api">API</option>
+            </select>
+          </div>
+        </div>
 
-        <select onChange={e => handleFilterCreated(e)}>
-          <option value="all">All dogs</option>
-          <option value="created">Created</option>
-          <option value="api">API</option>
-        </select>
-      </div>
-      {/* sort */}
-      <div>
-        {/* sort by name */}
-        <span>
-          Sort by:&nbsp;
-        </span>
-        <select onChange={handleSortByName}>
-          <option value="ascendente">Name (A-Z)</option>
-          <option value="descendente">Name (Z-A)</option>
-        </select>
+        <div className="create-dog">
+          Create your original dog&nbsp;
+          <Link to="/dogs">here</Link>!
+        </div>
 
-        {/* sort by weight */}
-        <select onChange={handleSortByWeight}>
-          <option value="mayor">Weight (More heavy)</option>
-          <option value="menor">Weight (Less heavy)</option>
-        </select>
-      </div>
-
-      <Link to="/dogs">
-        <button>Create dog</button>
-      </Link>
-
-      {/* paginado */}
-      <div className="containerPages">
+        {/* dog cards */}
+        <div className="card-container">
+          {actualDogs.length ? (
+            actualDogs.map((dog) => {
+              return (
+                <Card
+                  id={dog.id}
+                  key={dog.id}
+                  name={dog.name}
+                  image={dog.image}
+                  weight={dog.weight}
+                  temperaments={
+                    dog.temperaments
+                      ? dog.temperaments
+                      : dog.temperaments &&
+                        dog.temperaments.map((e) => {
+                          console.log(dog.temperaments);
+                          return `${e.name}, `;
+                        })
+                  }
+                />
+              );
+            })
+          ) : (
+            <h4>Loading...</h4>
+          )}
+        </div>
         <Pages
           dogsPerPage={dogsPerPage}
           allDogs={allDogs.length}
           pages={pages}
         />
-      </div>
-
-      {/* dog section */}
-      <div className="mostrarPerros">
-        {actualDogs.length ? (
-          actualDogs.map((dog) => {
-            return (
-              <div key={dog.id}>
-                <Link to={"/dogs/" + dog.id}>
-                  <Card
-                    key={dog.id}
-                    name={dog.name}
-                    image={dog.image}
-                    temperaments={
-                      dog.temperaments
-                        ? dog.temperaments
-                        : dog.temperaments &&
-                          dog.temperaments.map((e) => {
-                            console.log(dog.temperaments);
-                            return `${e.name}, `
-                          })
-                    }
-                    weight={dog.weight}
-                  />
-                </Link>
-              </div>
-            );
-          })
-        ) : (
-          <h4>Loading...</h4>
-        )}
       </div>
     </div>
   );

@@ -1,31 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import '../styles/Card.css'
 
-const Card = ({ name, image, weight, temperaments }) => {
+const Card = ({ id, name, image, weight, temperaments }) => {
   return (
-    <div>
-      <h3>{name}</h3>
-      <img className="dogImg" src={image} alt={name} />
-      {/* 
-      "temperaments": [
-      {
-        "name": "Stubborn"
-      },
-      {
-        "name": "Active"
-      },
-      {
-        "name": "Happy"
-      }
-      ]
-      */}
-      {
-        Array.isArray(temperaments) ? temperaments.map((t, id) => (
-          <span key={id}>{t.name}, </span>
-        )) : <p>{temperaments}</p>
-      }
-      <p>{weight} kg</p>
-    </div>
+    <Link className="card" to={"/dogs/" + id}>
+      <img className="dog-img" src={image} alt={name} />
+      <div className="card-body">
+        <h3 className="card-title">{name}</h3>
+        <p className="card-weight">{weight} kg</p>
+        {Array.isArray(temperaments) ? (
+          temperaments.map((t, id) => <span key={id}>{t.name}, </span>)
+        ) : (
+          <p className="card-temperaments">{temperaments}</p>
+        )}
+      </div>
+    </Link>
   );
 };
 

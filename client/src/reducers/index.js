@@ -92,22 +92,36 @@ function rootReducer(state = initialState, action) {
         // allDogs: filterDog,
       };
 
-    case "FILTER_CREATED": //este tampoco me funca :)♥ lo filtra pero no me renderiza
+    case "FILTER_CREATED": //este tampoco me funca :)♥ lo filtra pero no me renderiza (mentira cuando pongo all me trae los de api)
       const allDogs2 = state.allDogs
       //selene way
       /* const filterCreation =
         action.payload === "created"
           ? state.allDogs.filter((dog) => dog.createdInDB)
           : state.allDogs.filter((dog) => !dog.createdInDB); */
-      const filterCreation =
+      /* const filterCreation =
         action.payload === "created"
           ? allDogs2.filter((dog) => dog.createdInDB)
           : allDogs2.filter((dog) => !dog.createdInDB);
+      console.log(allDogs2);
+      console.log(action.payload);
+      console.log(filterCreation);
       return {
         ...state,
-        dogs: action.payload === "all" ? state.allDogs : filterCreation,
+        dogs: action.payload === "all" ? allDogs2 : filterCreation,
         // allDogs: action.payload === "all" ? state.allDogs : filterCreation,
-      };
+      }; */
+      let filterCreation = null
+      if (action.payload === 'all') filterCreation = allDogs2
+      else if (action.payload === 'created') filterCreation = allDogs2.filter((dog) => dog.createdInDB)
+      else if (action.payload === 'api') filterCreation = allDogs2.filter((dog) => !dog.createdInDB)
+      console.log(allDogs2);
+      console.log(action.payload);
+      console.log(filterCreation);
+      return {
+        ...state,
+        dogs: filterCreation,
+      }
 
     case "CREATE_DOG":
       return {

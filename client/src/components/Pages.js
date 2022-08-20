@@ -14,11 +14,11 @@ const Pages = ({ allDogs, dogsPerPage, pages }) => {
       <ul className="pages">
         {pageNumbers &&
           pageNumbers.map((num) => (
-            <li className="pageNumber" key={num}>
-              <a onClick={() => pages(num)}>
+            <a key={num} onClick={() => pages(num)}>
+              <li className="pageNumber">
                 {num}
-              </a>
-            </li>
+              </li>
+            </a>
           ))}
       </ul>
     </nav>
