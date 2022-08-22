@@ -6,7 +6,7 @@ import "../styles/Nav.css";
 const Nav = ({ setActualPage }) => {
   return (
     <nav className="nav">
-      <div className="maxwidth-container">
+      <div className="nav-container">
         <h1 className="nav-title">
           <Link to="/home">Dog App</Link>
         </h1>

@@ -7,7 +7,7 @@
   box-shadow: var(--clr-light-brown) 0px 1px 4px;
   margin-bottom: .75rem;
 }
-.maxwidth-container {
+.nav-container {
   width: 100%;
   max-width: 1200px;
   display: flex;
@@ -25,9 +25,13 @@
 }
 
 @media (min-width: 500px){
-  .maxwidth-container {
+  .nav-container {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding: .5rem 0;
+  }
+  .nav-title {
+    font-size: 2rem;
   }
 }

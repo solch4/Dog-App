@@ -107,7 +107,7 @@ const Home = () => {
         </div>
 
         <div className="create-dog">
-          Create your original dog&nbsp;
+          Create your original dog breed&nbsp;
           <Link to="/dogs">here</Link>!
         </div>
 
