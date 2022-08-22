@@ -21,10 +21,10 @@ router.get('/dogs', async (req, res) => {
   const allDogs = await getAll()
   if(dogName){
     //si pasan x query un perro se fija si lo tiene, si es así lo devuelve sino devuelve todo
-    const filteredDog = await allDogs.filter(dog => dog.name.toLowerCase().includes(dogName.toLowerCase())) //x ej si buscan 'mal' tendía más de una raza con esa mini palabra, x eso se hace un filter, para devolver todas las coincidencias. x eso también se pregunta si dog.name.includes('mal'), para encontrar todas las razas q contengan un 'mal'
-    filteredDog ? 
-    res.status(200).send(filteredDog) :
-    res.status(404).send('Dog not found')
+    const filteredDog = await allDogs.filter(dog => dog.name.toLowerCase().includes(dogName.toLowerCase())) 
+    filteredDog
+    ? res.status(200).send(filteredDog)
+    : res.status(404).send('Dog not found')
   } else {
     res.status(200).send(allDogs)
   }
@@ -35,14 +35,17 @@ Obtener el detalle de una raza de perro en particular
 Debe traer solo los datos pedidos en la ruta de detalle de raza de perro
 Incluir los temperamentos asociados */
 router.get('/dogs/:id', async(req, res) => {
-  const dogID = req.params.id
-  console.log(dogID)
-  const allDogs = await getAll()
-  if (dogID) {
-    const filteredDog = await allDogs.find(dog => dog.id == dogID)
-    filteredDog ? 
-    res.status(200).send(filteredDog) : 
-    res.status(404).send('Dog ID not found')
+  try {
+    const dogID = req.params.id
+    const allDogs = await getAll()
+    if (dogID) {
+      const filteredDog = await allDogs.find(dog => dog.id == dogID);
+      filteredDog
+        ? res.status(200).send(filteredDog)
+        : res.status(404).send('Dog not found :(')
+    }
+  } catch (e) {
+    console.log(e);
   }
 })
 
@@ -57,8 +60,8 @@ router.post('/dogs', async (req, res) => {
       name: name[0].toUpperCase() + name.slice(1), 
       height: `${height_min} - ${height_max}`, 
       weight: `${weight_min} - ${weight_max}`, 
-      life_span: `${life_span_min} - ${life_span_max} years`, 
-      image, 
+      life_span: life_span_min && life_span_max ? `${life_span_min} - ${life_span_max} years` : null, 
+      image: image ? image : 'https://i.redd.it/n2713a0i3ge81.jpg', 
       DB_created
     })
     const temperamentAux = await Temperaments.findAll({

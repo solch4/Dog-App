@@ -38,13 +38,22 @@ export function getByName (name) {
 
 export function getById (id) {
   return async function (dispatch){
-    var res = await axios.get(`http://localhost:3001/dogs/${id}`)
-    return(
-      dispatch({
-        type: 'GET_BY_ID',
-        payload: res.data
-      })
-    )
+    try {
+      var res = await axios.get(`http://localhost:3001/dogs/${id}`)
+      return(
+        dispatch({
+          type: 'GET_BY_ID',
+          payload: res.data
+        })
+      )
+    } catch (e) {
+      return(
+        dispatch({
+          type: 'GET_BY_ID',
+          payload: e.response.data
+        })
+      )
+    }
   }
 }
 

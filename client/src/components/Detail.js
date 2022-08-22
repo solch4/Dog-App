@@ -12,23 +12,39 @@ const Detail = () => {
     dispatch(getById(id))
   }, [dispatch, id])
 
-  // console.log(details);
-
   return (
     <div>
+      <Link className="back-btn-container" to='/home'>
+        <button className="back-btn">⬅</button> {/* dsp cambiar x un svg o una img */}
+      </Link>
       {
-        Object.keys(details).length ? (
+        Object.keys(details).length && typeof details !== 'string' ? (
           <div>
             <h1>{details.name}</h1>
             <img src={details.image} alt={details.name + ' img'} /> 
             <h3>About me</h3>
             <p>Height: {details.height} cm</p>
             <p>Weight: {details.weight} kg</p>
-            <p>Life span: {details.life_span}</p>
-            <p>Temperaments: {!details.DB_created ? details.temperaments : details.temperaments.map(t => t.name + ', ')}</p>
+            {
+              details.life_span && details.life_span[0] !== ' '
+              ? <p>Life span: {details.life_span}</p>
+              : null
+            }
+            {/* dogs created in db */}
+            {
+              Array.isArray(details.temperaments) && details.temperaments.length
+              ? <p>Temperaments: {details.temperaments.map(t => Object.values(t)).join(', ')}</p>
+              : null
+            }
+            {/* dogs api */}
+            {
+              typeof details.temperaments === 'string' && details.temperaments.length
+              ? <p>{details.temperaments.length ? 'Temperaments: ' + details.temperaments : null}</p>
+              : null
+            }
           </div>
         ) : (
-          <h4>Loading...</h4>
+          <h4>{Array.isArray(details) ? 'Loading...' : details}</h4>
         )
       }
     </div>
