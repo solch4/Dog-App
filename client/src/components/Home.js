@@ -69,7 +69,7 @@ const Home = () => {
           {/* sort */}
           <div className="sort-container">
             {/* sort by name */}
-            <span>Sort by:&nbsp;</span>
+            <span className="sort-filter-title">Sort by:&nbsp;</span>
             <select onChange={handleSortByName}>
               <option value="ascendente">Name (A-Z)</option>
               <option value="descendente">Name (Z-A)</option>
@@ -84,7 +84,7 @@ const Home = () => {
           {/* filters */}
           {/* <Filters actualPage={actualPage} setActualPage={setActualPage} /> */}
           <div className="filter-container">
-            <span>Filter by: </span>
+            <span className="sort-filter-title">Filter by: </span>
             <select onChange={(e) => handleFilterTemperaments(e)}>
               <option key={0} value="all">
                 All temperaments
