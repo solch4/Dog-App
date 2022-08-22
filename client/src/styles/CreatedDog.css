@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: column;
   background-color: var(--clr-cream);
-  border-radius: 20px;
+  border-radius: 25px;
   margin: 5px 10px;
+  min-width: 290px;
   max-width: 450px;
 }
 .back-btn-container {
@@ -63,9 +64,9 @@
 .form-creation input, 
 .form-creation select {
   background-color: white;
-  border-radius: 20px;
+  border-radius: 25px;
   border: 1px solid var(--clr-light-brown);
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 1rem;
   outline: none;
 }
 
@@ -108,17 +109,34 @@
 .form-submit-btn {
   margin-top: 1rem;
   border: none;
-  border-radius: 20px;
+  border-radius: 25px;
   background-color: var(--clr-orange);
   color: white;
   font-family: var(--ff-nunito);
   text-transform: uppercase;
   font-weight: 800;
   letter-spacing: 0.1em;
-  padding: .5rem 1rem;
+  padding: .75rem 1rem;
   cursor: pointer;
 }
 .form-submit-btn:hover {
   background-color: white;
   color: var(--clr-orange);
+}
+
+@media (min-width:420px){
+  .form-body {
+    padding: 2.25rem 2rem;
+  }
+  .form-title {
+    font-size: 1.5rem;
+    margin-bottom: .5rem;
+  }
+  .form-label-title {
+    margin-top: .75rem;
+  }
+  .form-creation input, 
+  .form-creation select {
+    padding: 0.5rem 1.25rem;
+  }
 }
