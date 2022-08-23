@@ -85,7 +85,7 @@ select {
 
 body {
   background-image: url(./assets/2.jpg);
-  background-size: 250px;
+  background-size: 175px;
   color: var(--clr-dark-brown);
   font-family: var(--ff-ptsans);
   text-align: center;
