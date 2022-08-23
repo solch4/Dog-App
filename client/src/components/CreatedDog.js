@@ -12,25 +12,25 @@ const validateText = (input) => {
 
   if (!input.name) err.name = "Write the name";
 
-  if (!input.weight_min) err.weight_min = "Write the min weight";
-  else if (input.weight_min < 1) err.weight_min = "Should be heavier than 1kg";
-  // else if (isNaN(input.weight_min)) err.weight_min = "Should be a number";
-  
-  if (!input.weight_max) err.weight_max = "Write the max weight";
-  else if (input.weight_max > 100) err.weight_max = "Should be less heavy than 100kg";
-  // else if (isNaN(input.weight_max)) err.weight_max = "Should be a number";
-  
-  if (input.weight_min && input.weight_max && parseInt(input.weight_min) > parseInt(input.weight_max)) err.weight_max = 'Max weight should be bigger than min'
-
   if (!input.height_min) err.height_min = 'Write the min height'
   else if (input.height_min < 10) err.height_min = "Should be taller than 10cm";
-  // else if (isNaN(input.height_min)) err.height_min = "Should be a number";
+  else if (isNaN(input.height_min)) err.height_min = "Should be a number";
 
   if (!input.height_max) err.height_max = 'Write the max height'
   else if (input.height_max > 250) err.height_max = "Should be smaller than 250cm";
-  // else if (isNaN(input.height_max)) err.height_max = "Should be a number";
+  else if (isNaN(input.height_max)) err.height_max = "Should be a number";
 
   if (input.height_min && input.height_max && parseInt(input.height_min) > parseInt(input.height_max)) err.height_max = 'Max height should be bigger than min'
+
+  if (!input.weight_min) err.weight_min = "Write the min weight";
+  else if (input.weight_min < 1) err.weight_min = "Should be heavier than 1kg";
+  else if (isNaN(input.weight_min)) err.weight_min = "Should be a number";
+  
+  if (!input.weight_max) err.weight_max = "Write the max weight";
+  else if (input.weight_max > 100) err.weight_max = "Should be less heavy than 100kg";
+  else if (isNaN(input.weight_max)) err.weight_max = "Should be a number";
+  
+  if (input.weight_min && input.weight_max && parseInt(input.weight_min) > parseInt(input.weight_max)) err.weight_max = 'Max weight should be bigger than min'
 
   // optionals
   // if (!input.image) err.image = 'Insert the image URL'
@@ -38,11 +38,11 @@ const validateText = (input) => {
 
   // if (!input.life_span_min) err.life_span_min = 'Write the min life span'
   /* else */ if (input.life_span_min && input.life_span_min < 5) err.life_span_min = "Min life span should be bigger than 5 years";
-  // else if (input.life_span_min && isNaN(input.life_span_min)) err.life_span_min = "Should be a number";
+  else if (input.life_span_min && isNaN(input.life_span_min)) err.life_span_min = "Should be a number";
 
   // if (!input.life_span_max) err.life_span_max = 'Write the max life span'
   /* else */ if (input.life_span_max && input.life_span_max > 50) err.life_span_max = "Max life span should be smaller than 50 years";
-  // else if (input.life_span_max && isNaN(input.life_span_max)) err.life_span_max = "Should be a number";
+  else if (input.life_span_max && isNaN(input.life_span_max)) err.life_span_max = "Should be a number";
 
   if (input.life_span_min && input.life_span_max && parseInt(input.life_span_min) > parseInt(input.life_span_max)) err.life_span_max = 'Max life span should be bigger than min'
 
