@@ -26,13 +26,22 @@ export function getTemperaments () {
 
 export function getByName (name) {
   return async function (dispatch){
-    var res = await axios.get(`http://localhost:3001/dogs?name=${name}`)
-    return(
-      dispatch({
-      type: 'GET_BY_NAME',
-      payload: res.data
-      })
-    )
+    try {
+      var res = await axios.get(`http://localhost:3001/dogs?name=${name}`)
+      return(
+        dispatch({
+          type: 'GET_BY_NAME',
+          payload: res.data
+        })
+      )
+    } catch (e) {
+      return(
+        dispatch({
+          type: 'GET_BY_NAME',
+          payload: e.response.data
+        })
+      )
+    }
   }
 }
 

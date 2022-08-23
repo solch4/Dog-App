@@ -7,14 +7,15 @@ const SearchBar = ({ setActualPage }) => {
   const dispatch = useDispatch();
   const [nameInput, setNameInput] = useState("");
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setNameInput(e.target.value);
-  };
+  const handleChange = (e) => setNameInput(e.target.value);
+
   const handleSearch = (e) => {
     e.preventDefault();
-    dispatch(getByName(nameInput));
-    setActualPage(1);
+    if (!nameInput) alert("Please write the name of the dog you want to find.");
+    else {
+      dispatch(getByName(nameInput));
+      setActualPage(1);
+    }
   };
 
   return (
@@ -22,7 +23,7 @@ const SearchBar = ({ setActualPage }) => {
       <input
         className="search-input"
         type="text"
-        onChange={(e) => handleChange(e)}
+        onChange={handleChange}
         placeholder="Search dog..."
       />
       <button

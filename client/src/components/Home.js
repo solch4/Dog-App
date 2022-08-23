@@ -22,7 +22,7 @@ const Home = () => {
   const indexOfLastDog = actualPage * dogsPerPage;
   const indexOfFirstDog = indexOfLastDog - dogsPerPage;
   const actualDogs = allDogs.slice(indexOfFirstDog, indexOfLastDog); //recortamos el arreglo con todos los dogs
-
+  console.log('actualDogs', actualDogs);
   const pages = (pageNumber) => {
     setActualPage(pageNumber);
   };
@@ -113,7 +113,7 @@ const Home = () => {
 
         {/* dog cards */}
         <div className="card-container">
-          {actualDogs.length ? (
+          {actualDogs.length && Array.isArray(actualDogs) ? (
             actualDogs.map((dog) => {
               return (
                 <Card
@@ -122,20 +122,12 @@ const Home = () => {
                   name={dog.name}
                   image={dog.image}
                   weight={dog.weight}
-                  temperaments={
-                    dog.temperaments
-                      ? dog.temperaments
-                      : dog.temperaments &&
-                        dog.temperaments.map((e) => {
-                          console.log(dog.temperaments);
-                          return `${e.name}, `;
-                        })
-                  }
+                  temperaments={dog.temperaments}
                 />
               );
             })
           ) : (
-            <h4>Loading...</h4>
+            <h4>{allDogs}</h4>
           )}
         </div>
         <Pages

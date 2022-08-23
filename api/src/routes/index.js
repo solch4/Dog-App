@@ -22,9 +22,9 @@ router.get('/dogs', async (req, res) => {
   if(dogName){
     //si pasan x query un perro se fija si lo tiene, si es así lo devuelve sino devuelve todo
     const filteredDog = await allDogs.filter(dog => dog.name.toLowerCase().includes(dogName.toLowerCase())) 
-    filteredDog
-    ? res.status(200).send(filteredDog)
-    : res.status(404).send('Dog not found')
+    filteredDog.length
+      ? res.status(200).send(filteredDog)
+      : res.status(404).send('Dog not found :(')
   } else {
     res.status(200).send(allDogs)
   }
