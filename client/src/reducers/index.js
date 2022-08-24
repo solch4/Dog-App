@@ -23,7 +23,7 @@ function rootReducer(state = initialState, action) {
     case "GET_BY_NAME":
       return {
         ...state,
-        allDogs: action.payload,
+        dogs: action.payload,
       };
 
     case "GET_BY_ID":
@@ -53,80 +53,49 @@ function rootReducer(state = initialState, action) {
     case "ORDER_BY_WEIGHT":
       const orderedByWeight =
         action.payload === "menor"
-          ? state.allDogs.sort((a, b) => {
+          ? state.dogs.sort((a, b) => {
               if (parseInt(a.weight) > parseInt(b.weight)) return 1;
               if (parseInt(a.weight) < parseInt(b.weight)) return -1;
               return 0;
             })
-          : state.allDogs.sort((a, b) => {
+          : state.dogs.sort((a, b) => {
               if (parseInt(a.weight) > parseInt(b.weight)) return -1;
               if (parseInt(a.weight) < parseInt(b.weight)) return 1;
               return 0;
             });
       return {
         ...state,
-        allDogs: orderedByWeight,
+        dogs: orderedByWeight,
       };
 
     case "FILTER_BY_TEMPERAMENT":
       const allDogs = state.allDogs;
-
-      //Selene way (no me da error, con el console.log veo q sí filtra, pero no me renderiza el coso,,,)
-      // const filterDog =
-      //   action.payload === "all"
-      //     ? allDogs
-      //     : allDogs.filter((d) => d.temperaments?.includes(action.payload));
-      // console.log(filterDog);
-      // return {
-      //   ...state,
-      //   dogs: filterDog
-      // }
-
-      const filterDog = allDogs.filter((dog) =>
-        dog.temperaments?.includes(action.payload)
-      );
-      console.log(filterDog);
+      const filterDog =
+        action.payload === "all"
+          ? allDogs
+          : allDogs.filter((d) => d.temperaments?.includes(action.payload));
       return {
         ...state,
         dogs: filterDog,
-        // allDogs: filterDog,
       };
 
-    case "FILTER_CREATED": //este tampoco me funca :)♥ lo filtra pero no me renderiza (mentira cuando pongo all me trae los de api)
-      const allDogs2 = state.allDogs
-      //selene way
-      /* const filterCreation =
-        action.payload === "created"
-          ? state.allDogs.filter((dog) => dog.createdInDB)
-          : state.allDogs.filter((dog) => !dog.createdInDB); */
-      /* const filterCreation =
-        action.payload === "created"
-          ? allDogs2.filter((dog) => dog.createdInDB)
-          : allDogs2.filter((dog) => !dog.createdInDB);
-      console.log(allDogs2);
-      console.log(action.payload);
-      console.log(filterCreation);
-      return {
-        ...state,
-        dogs: action.payload === "all" ? allDogs2 : filterCreation,
-        // allDogs: action.payload === "all" ? state.allDogs : filterCreation,
-      }; */
-      let filterCreation = null
-      if (action.payload === 'all') filterCreation = allDogs2
-      else if (action.payload === 'created') filterCreation = allDogs2.filter((dog) => dog.createdInDB)
-      else if (action.payload === 'api') filterCreation = allDogs2.filter((dog) => !dog.createdInDB)
-      console.log(allDogs2);
-      console.log(action.payload);
-      console.log(filterCreation);
+    case "FILTER_CREATED":
+      const allDogs2 = state.allDogs;
+      let filterCreation = null;
+      if (action.payload === "all") filterCreation = allDogs2;
+      else if (action.payload === "created")
+        filterCreation = allDogs2.filter((dog) => dog.createdInDB);
+      else if (action.payload === "api")
+        filterCreation = allDogs2.filter((dog) => !dog.createdInDB);
       return {
         ...state,
         dogs: filterCreation,
-      }
+      };
 
     case "CREATE_DOG":
       return {
-        ...state
-      }
+        ...state,
+      };
 
     default:
       return { ...state };

@@ -1,9 +1,9 @@
 import React from "react";
 import "../styles/Pages.css";
 
-const Pages = ({ allDogs, dogsPerPage, pages }) => {
+const Pages = ({ dogs, dogsPerPage, pages }) => {
   const pageNumbers = [];
-  const indexPageNumbers = Math.ceil(allDogs / dogsPerPage);
+  const indexPageNumbers = Math.ceil(dogs / dogsPerPage);
 
   for (let i = 0; i < indexPageNumbers; i++) {
     pageNumbers.push(i + 1);

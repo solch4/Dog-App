@@ -3,8 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getDogs, sortByName, sortByWeight, filterByTemperament, filterCreated, getTemperaments } from "../actions/actions.js";
-import SearchBar from "./SearchBar.js";
-import Filters from "./Filters.js";
+// import Filters from "./Filters.js";
 import Card from "./Card.js";
 import Pages from "./Pages.js";
 import Nav from "./Nav.js";
@@ -12,6 +11,7 @@ import '../styles/Home.css'
 
 const Home = () => {
   const dispatch = useDispatch();
+  const dogs = useSelector((state) => state.dogs);
   const allDogs = useSelector((state) => state.allDogs);
   const temperamentsState = useSelector(state => state.temperaments)
   const [order, setOrder] = useState(""); //este state sólo sirve para re-renderizar la pág cuando hacemos un sort
@@ -21,8 +21,7 @@ const Home = () => {
   const [dogsPerPage, setDogsPerPage] = useState(8); //cuantos dogs por page
   const indexOfLastDog = actualPage * dogsPerPage;
   const indexOfFirstDog = indexOfLastDog - dogsPerPage;
-  const actualDogs = allDogs.slice(indexOfFirstDog, indexOfLastDog); //recortamos el arreglo con todos los dogs
-  console.log('actualDogs', actualDogs);
+  const actualDogs = dogs.slice(indexOfFirstDog, indexOfLastDog); //recortamos el arreglo con todos los dogs
   const pages = (pageNumber) => {
     setActualPage(pageNumber);
   };
@@ -33,19 +32,19 @@ const Home = () => {
   }, [dispatch]);
 
   const handleFilterCreated = (e) =>{
-    e.preventDefault();
+    setActualPage(1)
     dispatch(filterCreated(e.target.value))
   }
 
   const handleFilterTemperaments = (e) =>{
-    e.preventDefault();
+    setActualPage(1)
     dispatch(filterByTemperament(e.target.value))
   }
 
-  const handleReset = (e) => {
+  /* const handleReset = (e) => {
     e.preventDefault();
     dispatch(getDogs())
-  }
+  } */
 
   function handleSortByName(e) {
     e.preventDefault();
@@ -127,14 +126,16 @@ const Home = () => {
               );
             })
           ) : (
-            <h4>{allDogs}</h4>
+            <h4>{!dogs.length ? 'Loading...' : dogs}</h4>
           )}
         </div>
+        
         <Pages
           dogsPerPage={dogsPerPage}
-          allDogs={allDogs.length}
+          dogs={Array.isArray(dogs) ? dogs.length : 1}
           pages={pages}
         />
+
       </div>
     </div>
   );
