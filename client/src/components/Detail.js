@@ -1,7 +1,8 @@
 import React, {useEffect} from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getById } from "../actions/actions";
+import svgArr from '../assets/svg-arrow.svg'
 import '../styles/Detail.css'
 // import paw from '../assets/paw.png'
 // import bone from '../assets/bone.png'
@@ -9,18 +10,21 @@ import '../styles/Detail.css'
 const Detail = () => {
   const {id} = useParams()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const details = useSelector(state => state.details)
   
   useEffect(() => {
     dispatch(getById(id))
   }, [dispatch, id])
 
+  const handleGoBack = () => navigate('/home')
+  
   return (
     <div className="detail">
       <div className="detail-container">
-      <Link className="back-btn-container" to='/home'>
-        <button className="back-btn">⬅</button> {/* dsp cambiar x un svg o una img */}
-      </Link>
+        <button onClick={handleGoBack} className="back-btn">
+          <img src={svgArr} alt='Go back'/>
+        </button>
       {
         Object.keys(details).length && typeof details !== 'string' ? (
           <div className="detail-body">

@@ -15,12 +15,14 @@ const SearchBar = ({ setActualPage }) => {
     else {
       dispatch(getByName(nameInput));
       setActualPage(1);
+      setNameInput('')
     }
   };
 
   return (
     <form className="search-bar">
       <input
+        value={nameInput}
         className="search-input"
         type="text"
         onChange={handleChange}
@@ -37,8 +39,8 @@ const SearchBar = ({ setActualPage }) => {
           xmlns="http://www.w3.org/2000/svg"
           x="0px"
           y="0px"
-          width="15"
-          height="15"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           style={{ fill: "white" }}
         >

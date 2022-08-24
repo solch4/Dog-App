@@ -10,7 +10,7 @@ const Card = ({ id, name, image, weight, temperaments }) => {
         <h3 className="card-title">{name}</h3>
         <p className="card-weight">{weight} kg</p>
         {Array.isArray(temperaments) ? (
-          temperaments.map((t, id) => <span key={id}>{t.name}, </span>)
+          <p className="card-temperaments">{temperaments.map(t => Object.values(t)).join(', ')}</p>
         ) : (
           <p className="card-temperaments">{temperaments}</p>
         )}

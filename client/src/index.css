@@ -81,17 +81,14 @@ select {
   --clr-white: #FFF8EE;
   --ff-nunito: 'Nunito', sans-serif;
   --ff-ptsans: 'PT Sans', sans-serif;
+  background-image: url(./assets/2.jpg);
+  background-size: 175px;
 }
 
 body {
-  background-image: url(./assets/2.jpg);
-  background-size: 175px;
   color: var(--clr-dark-brown);
   font-family: var(--ff-ptsans);
   text-align: center;
-}
-
-#root {
   background-color: hsl(0, 0%, 100%, 0.6);
 }
 

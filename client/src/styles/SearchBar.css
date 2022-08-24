@@ -16,6 +16,9 @@
 
 .search-btn {
   position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0.5px solid var(--clr-orange);
   background: var(--clr-orange);
   border-radius: 20px;

@@ -7,29 +7,25 @@
   min-width: 290px;
   max-width: 450px;
 }
-.back-btn-container {
-  align-self: flex-start;
-}
+
 .back-btn {
-  margin-bottom: 10px;
-  height: 1.75rem;
-  width: 1.75rem;
+  margin-bottom: 15px;
+  align-self: flex-start;
+  padding: .45rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   background-color: var(--clr-orange);
-  color: var(--clr-white);
 }
 .back-btn:hover {
   background-color: var(--clr-light-brown);
 }
-.back-btn a {
-  text-decoration: none;
-}
 
 .obligatory {
   color: var(--clr-orange);
+  font-weight: 700;
 }
+
 .form-error{
   color: red;
   font-size: 13px;

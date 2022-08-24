@@ -2,7 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { createDogs, getTemperaments } from "../actions/actions";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import svgArr from '../assets/svg-arrow.svg'
+
 import '../styles/CreatedDog.css'
 // eslint-disable-next-line no-useless-escape
 const imgRegexp = new RegExp('^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$')
@@ -20,7 +22,7 @@ const validateText = (input) => {
   else if (input.height_max > 250) err.height_max = "Should be smaller than 250cm";
   else if (isNaN(input.height_max)) err.height_max = "Should be a number";
 
-  if (input.height_min && input.height_max && parseInt(input.height_min) > parseInt(input.height_max)) err.height_max = 'Max height should be bigger than min'
+  if (input.height_min && input.height_max && parseInt(input.height_min) >= parseInt(input.height_max)) err.height_max = 'Max height should be bigger than min'
 
   if (!input.weight_min) err.weight_min = "Write the min weight";
   else if (input.weight_min < 1) err.weight_min = "Should be heavier than 1kg";
@@ -30,7 +32,7 @@ const validateText = (input) => {
   else if (input.weight_max > 100) err.weight_max = "Should be less heavy than 100kg";
   else if (isNaN(input.weight_max)) err.weight_max = "Should be a number";
   
-  if (input.weight_min && input.weight_max && parseInt(input.weight_min) > parseInt(input.weight_max)) err.weight_max = 'Max weight should be bigger than min'
+  if (input.weight_min && input.weight_max && parseInt(input.weight_min) >= parseInt(input.weight_max)) err.weight_max = 'Max weight should be bigger than min'
 
   // optionals
   // if (!input.image) err.image = 'Insert the image URL'
@@ -44,13 +46,13 @@ const validateText = (input) => {
   /* else */ if (input.life_span_max && input.life_span_max > 50) err.life_span_max = "Max life span should be smaller than 50 years";
   else if (input.life_span_max && isNaN(input.life_span_max)) err.life_span_max = "Should be a number";
 
-  if (input.life_span_min && input.life_span_max && parseInt(input.life_span_min) > parseInt(input.life_span_max)) err.life_span_max = 'Max life span should be bigger than min'
+  if (input.life_span_min && input.life_span_max && parseInt(input.life_span_min) >= parseInt(input.life_span_max)) err.life_span_max = 'Max life span should be bigger than min'
 
   return err
 };
 
 const CreatedDog = () => {
-  // const navigation = useNavigate()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const temps = useSelector(state => state.temperaments)
   const [tempsDB, setTempsDB] = useState([])
@@ -73,46 +75,37 @@ const CreatedDog = () => {
   
   const handleSubmit = e => {
     e.preventDefault()
-    try {
-      // console.log(input);
-      // console.log(Object.values(input));
-      // console.log(!Object.values(input));
-      // console.log(errors);
-      // console.log(!Object.keys(errors).length);
-      // if (!Object.values(input) && !Object.keys(errors).length) alert('aaaaaaaaaaaaPlease complete the form.')
-      if (!input.name && !input.weight_min && !input.weight_max && !input.height_min && !input.height_max /* && !input.image && !input.life_span_min && !input.life_span_max */ && !Object.keys(errors).length) alert('Please complete the form.')
-      else if(!errors.name && !errors.weight_min && !errors.weight_max && !errors.height_min && !errors.height_max /* && !errors.image && !errors.life_span_min && !errors.life_span_max && !errors.temperaments */) {
-        const newDog = {
-          name: input.name,
-          weight_min: input.weight_min,
-          weight_max: input.weight_max,
-          height_min: input.height_min,
-          height_max: input.height_max,
-          image: input.image,
-          life_span_min: input.life_span_min,
-          life_span_max: input.life_span_max,
-          temperaments: tempsDB,
-          // ...input
-        };
-        console.log(newDog);
-        dispatch(createDogs(newDog));
-        alert("Your dog is ready!");
-        setInput({
-          name: "",
-          weight_min: "",
-          weight_max: "",
-          height_min: "",
-          height_max: "",
-          image: "",
-          life_span_min: "",
-          life_span_max: "",
-          temperaments: [],
-        });
-        setTempsDB([])
-      } else return alert('Please complete the form with the correct data.')
-    } catch (e) {
-      alert('Please complete the form with the correct data.')
-    }
+    if (!input.name && !input.weight_min && !input.weight_max && !input.height_min && !input.height_max && !Object.keys(errors).length) alert('Please complete the form.')
+    else if(!errors.name && !errors.weight_min && !errors.weight_max && !errors.height_min && !errors.height_max) {
+      const newDog = {
+        name: input.name,
+        weight_min: input.weight_min,
+        weight_max: input.weight_max,
+        height_min: input.height_min,
+        height_max: input.height_max,
+        image: input.image,
+        life_span_min: input.life_span_min,
+        life_span_max: input.life_span_max,
+        temperaments: tempsDB,
+        // ...input
+      };
+      console.log(newDog);
+      dispatch(createDogs(newDog));
+      alert("Your dog is ready!");
+      setInput({
+        name: "",
+        weight_min: "",
+        weight_max: "",
+        height_min: "",
+        height_max: "",
+        image: "",
+        life_span_min: "",
+        life_span_max: "",
+        temperaments: [],
+      });
+      setTempsDB([])
+      navigate('/home')
+    } else return alert('Please complete the form with the correct data.')
   }
 
   const handleChange = (e) => {
@@ -120,16 +113,8 @@ const CreatedDog = () => {
     setErrors(validateText({...input, [e.target.name]: e.target.value}))
   }
   
-  const handleSelect = e => {
-    console.log(e.target.value);
-    if(!tempsDB.includes(e.target.value)){
-      if (tempsDB.length > 0){
-        setTempsDB([...tempsDB, e.target.value])
-      } else {
-        setTempsDB([e.target.value])
-      }
-    }
-    console.log(tempsDB);
+  const handleSelect = (e) => {
+    if(!tempsDB.includes(e.target.value)) setTempsDB([...tempsDB, e.target.value])
   }
 
   const handleDelete = (e) => {
@@ -137,12 +122,14 @@ const CreatedDog = () => {
     setTempsDB(tempsDB.filter((temp) => temp !== e.target.value))
   }
 
+  const handleGoBack = () => navigate('/home')
+
   return (
     <div className="form-container">
       <div className="form-body">
-        <Link className="back-btn-container" to='/home'>
-          <button className="back-btn">⬅</button> {/* dsp cambiar x un svg o una img */}
-        </Link>
+        <button onClick={handleGoBack} className="back-btn">
+          <img src={svgArr} alt='Go back'/>
+        </button>
 
         <h2 className="form-title">Complete the form and create your original breed! 🐕</h2>
         <h5 className="form-subtitle">Fields with <span className="obligatory">*</span> are required.</h5>
