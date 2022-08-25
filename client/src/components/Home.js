@@ -12,7 +12,6 @@ import '../styles/Home.css'
 const Home = () => {
   const dispatch = useDispatch();
   const dogs = useSelector((state) => state.dogs);
-  const allDogs = useSelector((state) => state.allDogs);
   const temperamentsState = useSelector(state => state.temperaments)
   const [order, setOrder] = useState(""); //este state sólo sirve para re-renderizar la pág cuando hacemos un sort
 
@@ -22,8 +21,17 @@ const Home = () => {
   const indexOfLastDog = actualPage * dogsPerPage;
   const indexOfFirstDog = indexOfLastDog - dogsPerPage;
   const actualDogs = dogs.slice(indexOfFirstDog, indexOfLastDog); //recortamos el arreglo con todos los dogs
+  const [minPageNumber, setMinPageNumber] = useState(0) //este estado y el q está abajo es para hacer el paginado más tikito y que quede lindo, uso ambos para hacer un slice y renderizar sólo ese pedazo
+  const [maxPageNumber, setMaxPageNumber] = useState(5)
   const pages = (pageNumber) => {
     setActualPage(pageNumber);
+    if(pageNumber >= maxPageNumber) {
+      setMinPageNumber(minPageNumber+4)
+      setMaxPageNumber(maxPageNumber+4)
+    } else if(pageNumber <= minPageNumber) {
+      setMinPageNumber(minPageNumber-4)
+      setMaxPageNumber(maxPageNumber-4)
+    }
   };
 
   useEffect(() => {
@@ -131,6 +139,9 @@ const Home = () => {
         </div>
         
         <Pages
+          actualPage={actualPage}
+          minPageNumber={minPageNumber}
+          maxPageNumber={maxPageNumber}
           dogsPerPage={dogsPerPage}
           dogs={Array.isArray(dogs) ? dogs.length : 1}
           pages={pages}

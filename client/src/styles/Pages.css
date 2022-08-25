@@ -6,19 +6,35 @@
 }
 
 .pageNumber {
-  align-self: center;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   list-style: none;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   background-color: var(--clr-cream);
   color: var(--clr-light-brown);
   border-radius: 25%;
   margin: 1px;
-  padding: .5rem;
+  user-select: none;
   cursor: pointer;
 }
 .pageNumber:hover {
+  background-color: var(--clr-orange);
+  color: var(--clr-dark-brown);
+}
+
+.disabled {
+  background-color: var(--clr-white);
+  color: var(--clr-grey);
+}
+.disabled:hover {
+  background-color: var(--clr-white);
+  color: var(--clr-grey);
+  cursor: not-allowed;
+}
+
+.activePage{
   background-color: var(--clr-orange);
   color: var(--clr-dark-brown);
 }
