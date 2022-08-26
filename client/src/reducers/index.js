@@ -54,14 +54,22 @@ function rootReducer(state = initialState, action) {
       const orderedByWeight =
         action.payload === "menor"
           ? state.dogs.sort((a, b) => {
-              if (parseInt(a.weight) > parseInt(b.weight)) return 1;
-              if (parseInt(a.weight) < parseInt(b.weight)) return -1;
-              return 0;
+              if (a.weight.includes('NaN')) {
+                return 1000;
+              } else {
+                if (parseInt(a.weight.split(' - ')[0]) > parseInt(b.weight.split(' - ')[0])) return 1;
+                if (parseInt(a.weight.split(' - ')[0]) < parseInt(b.weight.split(' - ')[0])) return -1;
+                return 0;
+              }
             })
           : state.dogs.sort((a, b) => {
-              if (parseInt(a.weight) > parseInt(b.weight)) return -1;
-              if (parseInt(a.weight) < parseInt(b.weight)) return 1;
-              return 0;
+              if (a.weight.includes('NaN')) {
+                return 1000;
+              } else {
+                if (parseInt(a.weight.split(' - ')[0]) < parseInt(b.weight.split(' - ')[0])) return 1;
+                if (parseInt(a.weight.split(' - ')[0]) > parseInt(b.weight.split(' - ')[0])) return -1;
+                return 0;
+              }
             });
       return {
         ...state,
