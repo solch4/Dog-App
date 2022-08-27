@@ -78,7 +78,7 @@ const CreatedDog = () => {
     if (!input.name && !input.weight_min && !input.weight_max && !input.height_min && !input.height_max && !Object.keys(errors).length) alert('Please complete the form.')
     else if(!errors.name && !errors.weight_min && !errors.weight_max && !errors.height_min && !errors.height_max) {
       const newDog = {
-        name: input.name,
+        name: input.name.trim(),
         weight_min: input.weight_min,
         weight_max: input.weight_max,
         height_min: input.height_min,

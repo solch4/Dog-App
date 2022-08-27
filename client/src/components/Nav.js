@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import "../styles/Nav.css";
 
-const Nav = ({ setActualPage }) => {
+const Nav = ({ setMinPageNumber, setMaxPageNumber, setActualPage }) => {
   return (
     <nav className="nav">
       <div className="nav-container">
         <h1 className="nav-title">
           <Link to="/home">Dog App</Link>
         </h1>
-        <SearchBar setActualPage={setActualPage} />
+        <SearchBar setMinPageNumber={setMinPageNumber} setMaxPageNumber={setMaxPageNumber} setActualPage={setActualPage} />
       </div>
     </nav>
   );

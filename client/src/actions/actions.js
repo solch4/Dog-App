@@ -66,6 +66,12 @@ export function getById (id) {
   }
 }
 
+export function clearDetail () {
+  return {
+    type: 'CLEAR_DETAIL'
+  }
+}
+
 export function sortByName (payload) {
   return{
     type: 'ORDER_BY_NAME',

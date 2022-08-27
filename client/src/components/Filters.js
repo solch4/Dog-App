@@ -3,18 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterByTemperament, filterCreated } from "../actions/actions";
 import '../styles/Filters.css'
 
-function Filters({ setActualPage }) {
+function Filters({ setMinPageNumber, setMaxPageNumber, setActualPage }) {
   const temperamentsState = useSelector(state => state.temperaments)
 
   const dispatch = useDispatch();
   
   const handleFilterCreated = (e) =>{
     setActualPage(1)
+    setMinPageNumber(0)
+    setMaxPageNumber(5)
     dispatch(filterCreated(e.target.value))
   }
-
+  
   const handleFilterTemperaments = (e) =>{
     setActualPage(1)
+    setMinPageNumber(0)
+    setMaxPageNumber(5)
     dispatch(filterByTemperament(e.target.value))
   }
 

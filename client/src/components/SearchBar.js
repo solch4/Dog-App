@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { getByName } from "../actions/actions.js";
 import "../styles/SearchBar.css";
 
-const SearchBar = ({ setActualPage }) => {
+const SearchBar = ({ setMinPageNumber, setMaxPageNumber, setActualPage }) => {
   const dispatch = useDispatch();
   const [nameInput, setNameInput] = useState("");
 
@@ -15,6 +15,8 @@ const SearchBar = ({ setActualPage }) => {
     else {
       dispatch(getByName(nameInput));
       setActualPage(1);
+      setMinPageNumber(0)
+      setMaxPageNumber(5)  
       setNameInput('')
     }
   };

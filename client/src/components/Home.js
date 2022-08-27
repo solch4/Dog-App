@@ -28,7 +28,7 @@ const Home = () => {
     if(pageNumber >= maxPageNumber) {
       setMinPageNumber(minPageNumber+4)
       setMaxPageNumber(maxPageNumber+4)
-    } else if(pageNumber <= minPageNumber) {
+    } else if(pageNumber <= minPageNumber+1 && pageNumber !== 1) {
       setMinPageNumber(minPageNumber-4)
       setMaxPageNumber(maxPageNumber-4)
     }
@@ -41,11 +41,11 @@ const Home = () => {
 
   return (
     <div className="App">
-      <Nav setActualPage={setActualPage} />
+      <Nav setMinPageNumber={setMinPageNumber} setMaxPageNumber={setMaxPageNumber} setActualPage={setActualPage} />
       <div className="home-container">
         <div className="sort-filter-container">
-          <Sort setActualPage={setActualPage} setOrder={setOrder} />
-          <Filters setActualPage={setActualPage} />
+          <Sort setMinPageNumber={setMinPageNumber} setMaxPageNumber={setMaxPageNumber} setActualPage={setActualPage} setOrder={setOrder} />
+          <Filters setMinPageNumber={setMinPageNumber} setMaxPageNumber={setMaxPageNumber} setActualPage={setActualPage} />
         </div>
 
         <div className="create-dog">

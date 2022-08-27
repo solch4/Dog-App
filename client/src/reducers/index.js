@@ -32,6 +32,12 @@ function rootReducer(state = initialState, action) {
         details: action.payload,
       };
 
+    case 'CLEAR_DETAIL':
+      return {
+        ...state,
+        details: []
+      }
+
     case "ORDER_BY_NAME":
       const orderedByName =
         action.payload === "ascendente"

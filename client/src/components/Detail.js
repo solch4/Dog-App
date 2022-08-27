@@ -1,11 +1,9 @@
 import React, {useEffect} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getById } from "../actions/actions";
+import { getById, clearDetail } from "../actions/actions";
 import svgArr from '../assets/svg-arrow.svg'
 import '../styles/Detail.css'
-// import paw from '../assets/paw.png'
-// import bone from '../assets/bone.png'
 
 const Detail = () => {
   const {id} = useParams()
@@ -15,6 +13,7 @@ const Detail = () => {
   
   useEffect(() => {
     dispatch(getById(id))
+    dispatch(clearDetail())
   }, [dispatch, id])
 
   const handleGoBack = () => navigate('/home')
@@ -32,7 +31,6 @@ const Detail = () => {
             <div className="detail-description">
             <div className="detail-title-container">
               <h1 className="detail-title">{details.name}</h1>
-              {/* <img className="detail-title-paw" src={paw} alt='' /> */}
             </div>
               <h3 className="detail-aboutme">About me</h3>
               <p><span className="detail-category">Height: </span>{details.height} cm</p>
@@ -57,7 +55,7 @@ const Detail = () => {
             </div>
           </div>
         ) : (
-          <h4>{Array.isArray(details) ? 'Loading...' : details}</h4>
+          <h3>{Array.isArray(details) ? 'Loading...' : details}</h3>
         )
       }
       </div>
