@@ -38,14 +38,21 @@ const Home = () => {
     dispatch(getDogs());
     dispatch(getTemperaments())
   }, [dispatch]);
+  
+  const handleRefresh = () => {
+    dispatch(getDogs());
+  }
 
   return (
     <div className="App">
       <Nav setMinPageNumber={setMinPageNumber} setMaxPageNumber={setMaxPageNumber} setActualPage={setActualPage} />
       <div className="home-container">
         <div className="sort-filter-container">
-          <Sort setMinPageNumber={setMinPageNumber} setMaxPageNumber={setMaxPageNumber} setActualPage={setActualPage} setOrder={setOrder} />
-          <Filters setMinPageNumber={setMinPageNumber} setMaxPageNumber={setMaxPageNumber} setActualPage={setActualPage} />
+          <div className="sort-filter">
+            <Filters setMinPageNumber={setMinPageNumber} setMaxPageNumber={setMaxPageNumber} setActualPage={setActualPage} />
+            <Sort setMinPageNumber={setMinPageNumber} setMaxPageNumber={setMaxPageNumber} setActualPage={setActualPage} setOrder={setOrder} />
+          </div>
+          <button className="home-refresh-btn" onClick={handleRefresh}>Refresh</button>
         </div>
 
         <div className="create-dog">

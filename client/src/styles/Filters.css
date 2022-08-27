@@ -2,7 +2,7 @@
   background-color: white;
   border-radius: 20px;
   border: 1px solid var(--clr-light-brown);
-  padding: 0.25rem 0.4rem;
+  padding: 0.25rem 0.5rem;
 }
 .filter-title {
   font-weight: 700;
