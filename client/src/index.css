@@ -81,15 +81,26 @@ select {
   --clr-white: #FFF8EE;
   --ff-nunito: 'Nunito', sans-serif;
   --ff-ptsans: 'PT Sans', sans-serif;
-  background-image: url(./assets/2.jpg);
-  background-size: 175px;
+  --bg-image: url(./assets/2.jpg);
+  --bg-image-opacity: .3;
+
+  position: relative;
+  isolation: isolate;
+}
+:root::after {
+  background-image: var(--bg-image);
+  opacity: var(--bg-image-opacity);
+  background-size: 200px;
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
 }
 
 body {
   color: var(--clr-dark-brown);
   font-family: var(--ff-ptsans);
   text-align: center;
-  background-color: hsl(0, 0%, 100%, 0.6);
 }
 
 ::-webkit-scrollbar {

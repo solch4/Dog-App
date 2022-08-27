@@ -16,21 +16,6 @@
   align-items: center;
   justify-content: center;
 }
-.sort-filter-title {
-  font-weight: 700;
-}
-.sort-container select {
-  background-color: white;
-  border-radius: 20px;
-  border: 1px solid var(--clr-light-brown);
-  padding: 0.25rem 0.4rem;
-}
-.filter-container select {
-  background-color: white;
-  border-radius: 20px;
-  border: 1px solid var(--clr-light-brown);
-  padding: 0.25rem 0.4rem;
-}
 
 .create-dog {
   margin: 1rem;
@@ -39,12 +24,13 @@
   font-weight: 700;
 }
 .create-dog a {
-  font-weight: 800;
+  font-weight: 900;
   color: var(--clr-light-brown);
   text-decoration: none;
   filter: drop-shadow(0px 0px 2px var(--clr-white));
 }
 .create-dog a:hover {
+  color: var(--clr-orange);
   text-decoration: underline;
 }
 
@@ -58,6 +44,7 @@
   .create-dog {
     letter-spacing: 0.01em;
     font-size: 1.35rem;
+    font-weight: 800;
   }
   .card-container {
     flex-direction: row;

@@ -16,7 +16,7 @@
 .nav-title {
   padding: .75rem;
   font-family: var(--ff-nunito);
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 800;
 }
 .nav-title a {
@@ -32,6 +32,6 @@
     padding: .5rem 0;
   }
   .nav-title {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
 }
