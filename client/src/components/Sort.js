@@ -26,8 +26,8 @@ const Sort = ({  setMinPageNumber, setMaxPageNumber, setActualPage, setOrder }) 
   return (
     <div className="sort-container">
       <span className="sort-title">Sort by:&nbsp;</span>
-      <select onChange={handleSort}>
-        <option selected disabled>-select sort-</option>
+      <select defaultValue='DEFAULT' onChange={handleSort}>
+        <option value="DEFAULT" disabled>Select sort...</option>
         <option value="ascendente">Name (A-Z)</option>
         <option value="descendente">Name (Z-A)</option>
         <option value="menor">Weight (asc)</option>
