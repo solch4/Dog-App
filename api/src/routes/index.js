@@ -56,24 +56,26 @@ router.post('/dogs', async (req, res) => {
   try {
     const {name, height_min, height_max, weight_min, weight_max, image, life_span_min, life_span_max, temperaments, DB_created} = req.body
   
-    const newDog = await Dog.create({
-      name: name[0].toUpperCase() + name.slice(1), 
-      height: `${height_min} - ${height_max}`, 
-      weight: `${weight_min} - ${weight_max}`, 
-      life_span: life_span_min && life_span_max ? `${life_span_min} - ${life_span_max} years` : null, 
-      image: image ? image : 'https://i.redd.it/n2713a0i3ge81.jpg', 
-      DB_created
-    })
-    const temperamentAux = await Temperaments.findAll({
-      where:{
-        name: temperaments
-      }
-    })
-  
-    newDog.addTemperaments(temperamentAux)
-    res.status(201).send('Dog created succcessfully!')
+    if (name && height_min && height_max && weight_min && weight_max){
+      const newDog = await Dog.create({
+        name: name[0].toUpperCase() + name.slice(1), 
+        height: `${height_min} - ${height_max}`, 
+        weight: `${weight_min} - ${weight_max}`, 
+        life_span: life_span_min && life_span_max ? `${life_span_min} - ${life_span_max} years` : null, 
+        image: image ? image : 'https://i.redd.it/n2713a0i3ge81.jpg', 
+        DB_created
+      })
+      const temperamentAux = await Temperaments.findAll({
+        where:{
+          name: temperaments
+        }
+      })
+      newDog.addTemperaments(temperamentAux)
+      res.status(201).send('Dog created succcessfully!')
+    } else res.status(400).send('Bad request')
+    
   } catch (e) {
-    console.log(e);
+    console.log('malió sal el post /dogs:', e);
   }
 })
 
@@ -85,7 +87,7 @@ router.get('/temperaments', async (req,res) => {
   const temperaments = infoApi.map(dog => dog.temperaments).join().split(',')
   const temperamentsForDB = temperaments.map(e => e.trim())
   temperamentsForDB.forEach(e => {
-    if(e !== '') {
+    if(e) {
       Temperaments.findOrCreate({ //método de sequelize. va a buscar el elemento en la tabla, si no lo encuentra crea la nueva entrada
         where: {
           name: e

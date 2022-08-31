@@ -35,9 +35,9 @@ const Home = () => {
   };
 
   useEffect(() => {
-    dispatch(getDogs());
+    !dogs.length && dispatch(getDogs())
     dispatch(getTemperaments())
-  }, [dispatch]);
+  }, [dispatch, dogs]);
   
   const handleRefresh = () => {
     dispatch(getDogs());

@@ -4,15 +4,18 @@ import { useState, useEffect } from "react";
 import { createDogs, getTemperaments } from "../actions/actions";
 import { useNavigate } from "react-router-dom";
 import svgArr from '../assets/svg-arrow.svg'
-
 import '../styles/CreatedDog.css'
+
 // eslint-disable-next-line no-useless-escape
 const imgRegexp = new RegExp('^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$')
+const isBlankSpace = new RegExp("^\\s+$")
 
+// cb
 const validateText = (input) => {
   const err = {};
 
   if (!input.name) err.name = "Write the name";
+  else if (isBlankSpace.test(input.name)) err.name = "Shouldn't be a blank space"
 
   if (!input.height_min) err.height_min = 'Write the min height'
   else if (input.height_min < 10) err.height_min = "Should be taller than 10cm";
@@ -51,6 +54,8 @@ const validateText = (input) => {
   return err
 };
 
+
+// component
 const CreatedDog = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -118,7 +123,7 @@ const CreatedDog = () => {
   }
 
   const handleDelete = (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     setTempsDB(tempsDB.filter((temp) => temp !== e.target.value))
   }
 
@@ -128,7 +133,7 @@ const CreatedDog = () => {
     <div className="form-container">
       <div className="form-body">
         <button onClick={handleGoBack} className="back-btn">
-          <img src={svgArr} alt='Go back'/>
+          <img src={svgArr} alt='Go back' aria-label="Go back" />
         </button>
 
         <h2 className="form-title">Complete the form and create your original breed! 🐕</h2>
@@ -172,7 +177,8 @@ const CreatedDog = () => {
             {errors.life_span_max && (<p className="form-error form-doble-error">{errors.life_span_max}</p>)}
           </div>
           <label className="form-label-title">Temperaments</label>
-          <select name="form-temperaments" onChange={handleSelect}>
+          <select defaultValue='DEFAULT' name="form-temperaments" onChange={handleSelect}>
+            <option value="DEFAULT" disabled>Select temperaments...</option>
             {temps.map((temps) => (
               <option className="form-option" key={temps.name} value={temps.name}>{temps.name}</option>
             ))}
