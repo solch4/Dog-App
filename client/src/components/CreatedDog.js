@@ -39,7 +39,7 @@ const validateText = (input) => {
 
   // optionals
   // if (!input.image) err.image = 'Insert the image URL'
-  /* else */ if (input.image && !imgRegexp.test(input.image)) err.image = 'Should be a valid URL'
+  /* else */ if (input.image && !imgRegexp.test(input.image.trim())) err.image = 'Should be a valid URL'
 
   // if (!input.life_span_min) err.life_span_min = 'Write the min life span'
   /* else */ if (input.life_span_min && input.life_span_min < 5) err.life_span_min = "Min life span should be bigger than 5 years";
@@ -88,7 +88,7 @@ const CreatedDog = () => {
         weight_max: input.weight_max,
         height_min: input.height_min,
         height_max: input.height_max,
-        image: input.image,
+        image: input.image.trim(),
         life_span_min: input.life_span_min,
         life_span_max: input.life_span_max,
         temperaments: tempsDB,
@@ -122,10 +122,7 @@ const CreatedDog = () => {
     if(!tempsDB.includes(e.target.value)) setTempsDB([...tempsDB, e.target.value])
   }
 
-  const handleDelete = (e) => {
-    // e.preventDefault()
-    setTempsDB(tempsDB.filter((temp) => temp !== e.target.value))
-  }
+  const handleDelete = (e) => setTempsDB(tempsDB.filter((temp) => temp !== e.target.value))
 
   const handleGoBack = () => navigate('/home')
 
@@ -146,8 +143,8 @@ const CreatedDog = () => {
           
           <label className="form-label-title">Height <span className="obligatory">*</span></label>
           <div className="form-doble-input-container">
-            <input className="form-doble-input" name="height_min" value={input.height_min} placeholder='Min' onChange={handleChange} type='number'/>
-            <input className="form-doble-input" name="height_max" value={input.height_max} placeholder='Max' onChange={handleChange} type='number'/>
+            <input className="form-doble-input" name="height_min" value={input.height_min} placeholder='Min cm' onChange={handleChange} type='number'/>
+            <input className="form-doble-input" name="height_max" value={input.height_max} placeholder='Max cm' onChange={handleChange} type='number'/>
           </div>
           <div className="form-doble-error-container">
             {errors.height_min && (<p className="form-error form-doble-error">{errors.height_min}</p>)}
@@ -156,8 +153,8 @@ const CreatedDog = () => {
 
           <label className="form-label-title">Weight <span className="obligatory">*</span></label>
           <div className="form-doble-input-container">
-            <input className="form-doble-input" name="weight_min" value={input.weight_min} placeholder='Min' onChange={handleChange} type='number' />
-            <input className="form-doble-input" name="weight_max" value={input.weight_max} placeholder='Max' onChange={handleChange} type='number' />
+            <input className="form-doble-input" name="weight_min" value={input.weight_min} placeholder='Min kg' onChange={handleChange} type='number' />
+            <input className="form-doble-input" name="weight_max" value={input.weight_max} placeholder='Max kg' onChange={handleChange} type='number' />
           </div>
           <div className="form-doble-error-container">
             {errors.weight_min && (<p className="form-error form-doble-error">{errors.weight_min}</p>)}
@@ -169,8 +166,8 @@ const CreatedDog = () => {
           {errors.image && (<p className="form-error">{errors.image}</p>)}
           <label className="form-label-title">Life span</label>
           <div className="form-doble-input-container">
-            <input className="form-doble-input" name="life_span_min" value={input.life_span_min} placeholder='Min' onChange={handleChange} type='number' />
-            <input className="form-doble-input" name="life_span_max" value={input.life_span_max} placeholder='Max' onChange={handleChange} type='number' />
+            <input className="form-doble-input" name="life_span_min" value={input.life_span_min} placeholder='Min year' onChange={handleChange} type='number' />
+            <input className="form-doble-input" name="life_span_max" value={input.life_span_max} placeholder='Max year' onChange={handleChange} type='number' />
           </div>
           <div className="form-doble-error-container">
             {errors.life_span_min && (<p className="form-error form-doble-error">{errors.life_span_min}</p>)}

@@ -11,9 +11,9 @@ const SearchBar = ({ setMinPageNumber, setMaxPageNumber, setActualPage }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (!nameInput) alert("Please write the name of the dog you want to find.");
+    if (!nameInput.trim()) alert("Please write the name of the dog you want to find.");
     else {
-      dispatch(getByName(nameInput));
+      dispatch(getByName(nameInput.trim()));
       setActualPage(1);
       setMinPageNumber(0)
       setMaxPageNumber(5)  

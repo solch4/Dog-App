@@ -1,11 +1,17 @@
 .form-container {
+  padding-block: 1.5rem;
+}
+
+.form-body{
   display: flex;
   flex-direction: column;
   background-color: var(--clr-cream);
   border-radius: 25px;
-  margin: 10px auto;
+  margin: 0 1rem;
   min-width: 290px;
   max-width: 450px;
+  text-align: left;
+  padding: 1.75rem 1.5rem;
 }
 
 .back-btn {
@@ -16,6 +22,7 @@
   border-radius: 8px;
   cursor: pointer;
   background-color: var(--clr-orange);
+  transition: 0.1s linear;
 }
 .back-btn:hover {
   background-color: var(--clr-light-brown);
@@ -29,11 +36,6 @@
 .form-error{
   color: red;
   font-size: 13px;
-}
-
-.form-body {
-  text-align: left;
-  padding: 1.75rem 1.5rem;
 }
 
 .form-title {
@@ -134,5 +136,11 @@
   .form-creation input, 
   .form-creation select {
     padding: 0.5rem 1.25rem;
+  }
+}
+
+@media (min-width:480px){
+  .form-body {
+    margin-inline: auto;
   }
 }

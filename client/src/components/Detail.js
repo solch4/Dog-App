@@ -29,9 +29,7 @@ const Detail = () => {
           <div className="detail-body">
             <img className="detail-img" src={details.image} alt={details.name + ' img'} /> 
             <div className="detail-description">
-            <div className="detail-title-container">
               <h1 className="detail-title">{details.name}</h1>
-            </div>
               <h3 className="detail-aboutme">About me</h3>
               <p><span className="detail-category">Height: </span>{details.height} cm</p>
               <p><span className="detail-category">Weight: </span>{details.weight} kg</p>
