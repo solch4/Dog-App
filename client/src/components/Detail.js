@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getById, clearDetail } from "../actions/actions";
+import { getById, clearDetail, deleteDog } from "../actions/actions";
 import svgArr from '../assets/svg-arrow.svg'
 import '../styles/Detail.css'
 
@@ -15,6 +15,12 @@ const Detail = () => {
     dispatch(getById(id))
     dispatch(clearDetail())
   }, [dispatch, id])
+
+  const handleDeleteDog = () => {
+    dispatch(deleteDog(id));
+    alert("The dog was successfully deleted from existence");
+    navigate("/home");
+  }
 
   const handleGoBack = () => navigate('/home')
   
@@ -49,6 +55,9 @@ const Detail = () => {
                 typeof details.temperaments === 'string' && details.temperaments.length
                 ? <p>{details.temperaments.length ? `My temperament is: ${details.temperaments}.` : null}</p>
                 : null
+              }
+              {
+                details.createdInDB && <button className="detail-delete-btn" onClick={handleDeleteDog}>Delete</button>
               }
             </div>
           </div>

@@ -112,3 +112,15 @@ export function createDogs (payload) {
   }
 }
 
+export function deleteDog (id) {
+  return async function (dispatch){
+    var res = await axios.delete(`http://localhost:3001/dogs/` + id)
+    return(
+      dispatch({
+        type: 'DELETE_DOG',
+        payload: res.data
+      })
+    )
+  }
+}
+

@@ -36,7 +36,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         details: []
-      }
+      };
 
     case "ORDER_BY_NAME":
       const orderedByName =
@@ -107,6 +107,11 @@ function rootReducer(state = initialState, action) {
       };
 
     case "CREATE_DOG":
+      return {
+        ...state,
+      };
+
+    case "DELETE_DOG":
       return {
         ...state,
       };

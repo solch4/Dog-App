@@ -55,6 +55,22 @@
   font-weight: 700;
 }
 
+.detail-delete-btn {
+  margin-top: 1rem;
+  background-color: var(--clr-light-brown);
+  border: 1px solid var(--clr-light-brown);
+  border-radius: 20px;
+  border: none;
+  color: white;
+  padding: 0.25rem 1rem;
+  cursor: pointer;
+  transition: 0.1s;
+}
+.detail-delete-btn:hover {
+  background-color: var(--clr-orange);
+  color: var(--clr-dark-brown);
+}
+
 @media (min-width:575px){
   .detail-body {
     flex-direction: row;
@@ -63,6 +79,7 @@
     order: 1;
     max-height: 450px;
     max-width: 65%;
+    margin: 0;
   }
   .detail-title-container {
     order: 2;
