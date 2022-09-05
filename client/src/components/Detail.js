@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getById, clearDetail, deleteDog } from "../actions/actions";
 import svgArr from '../assets/svg-arrow.svg'
+import noDog from '../assets/no-dog.svg'
 import '../styles/Detail.css'
 
 const Detail = () => {
@@ -65,7 +66,9 @@ const Detail = () => {
             </div>
           </div>
         ) : (
-          <h3>{Array.isArray(details) ? 'Loading...' : details}</h3>
+          Array.isArray(details) 
+          ? <h3>Loading...</h3> 
+          : <div className="detail-body"><img className="detail-dog-not-found-img" src={noDog} alt="Dog not found img" /><h1 className="detail-dog-not-found-title">Dog not found :(</h1></div>
         )
       }
       </div>

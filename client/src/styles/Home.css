@@ -56,6 +56,25 @@
   align-items: center;
 }
 
+.home-dog-not-found {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: inherit;
+  border-radius: 20px;
+  background-color: white;
+  width: 270px;
+  box-shadow: var(--clr-grey) 0px 0px 5px;
+  transition: 0.2s ease;
+  padding: 3rem 2rem;
+  gap: 2rem;
+}
+.home-dog-not-found h3 {
+  font-size: 1.25rem;
+  font-family: var(--ff-nunito);
+}
+
 @media (min-width: 600px) {
   .create-dog {
     letter-spacing: 0.01em;

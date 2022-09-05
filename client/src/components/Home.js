@@ -8,6 +8,8 @@ import Sort from './Sort.js'
 import Card from "./Card.js";
 import Pages from "./Pages.js";
 import Nav from "./Nav.js";
+import loader from '../assets/dog-run.gif'
+import noDog from '../assets/no-dog.svg'
 import '../styles/Home.css'
 
 const Home = () => {
@@ -76,7 +78,9 @@ const Home = () => {
               );
             })
           ) : (
-            <h4>{!dogs.length ? 'Loading...' : dogs}</h4>
+            !dogs.length 
+            ? <img style={{margin:50}} width={100} src={loader} alt='Loading...' /> 
+            : <div className="home-dog-not-found"><img src={noDog} alt="" /><h3>Dog not found :(</h3></div>
           )}
         </div>
         
