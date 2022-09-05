@@ -35,9 +35,6 @@
   bottom: 4px;
   border-radius: 25px;
 }
-.detail-title-paw {
-  margin-left: 8px;
-}
 
 .detail-img {
   border-radius: 20px;
@@ -55,7 +52,12 @@
   font-weight: 700;
 }
 
-.detail-delete-btn {
+.detail-delete-edit-btn-container{
+  display: flex;
+  gap: .5rem;
+}
+
+.detail-delete-edit-btn {
   margin-top: 1rem;
   background-color: var(--clr-light-brown);
   border: 1px solid var(--clr-light-brown);
@@ -66,9 +68,14 @@
   cursor: pointer;
   transition: 0.1s;
 }
-.detail-delete-btn:hover {
+
+.detail-delete-btn {
   background-color: var(--clr-orange);
   color: var(--clr-dark-brown);
+}
+.detail-delete-btn:hover {
+  background-color: var(--clr-light-brown);
+  color: white;
 }
 
 @media (min-width:575px){

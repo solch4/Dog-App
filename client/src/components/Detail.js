@@ -21,8 +21,10 @@ const Detail = () => {
     alert("The dog was successfully deleted from existence");
     navigate("/home");
   }
+  
+  const handleEditDog = () => navigate(`/dogs/${id}/edit`);
 
-  const handleGoBack = () => navigate('/home')
+  const handleGoBack = () => navigate(-1)
   
   return (
     <div className="detail">
@@ -56,9 +58,10 @@ const Detail = () => {
                 ? <p>{details.temperaments.length ? `My temperament is: ${details.temperaments}.` : null}</p>
                 : null
               }
-              {
-                details.createdInDB && <button className="detail-delete-btn" onClick={handleDeleteDog}>Delete</button>
-              }
+              <div className="detail-delete-edit-btn-container">
+                {details.createdInDB && <button className="detail-delete-edit-btn" onClick={handleEditDog}>Edit</button>}
+                {details.createdInDB && <button className="detail-delete-edit-btn detail-delete-btn" onClick={handleDeleteDog}>Delete</button>}
+              </div>
             </div>
           </div>
         ) : (

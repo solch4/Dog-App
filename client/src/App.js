@@ -5,6 +5,7 @@ import Home from "./components/Home.js";
 import CreatedDog from "./components/CreatedDog.js";
 import Detail from "./components/Detail.js";
 import Error404 from "./components/Error404";
+import EditCreatedDog from "./components/EditCreatedDog";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/dogs" element={<CreatedDog />} />
         <Route path="/dogs/:id" element={<Detail />} />
+        <Route path="/dogs/:id/edit" element={<EditCreatedDog />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </BrowserRouter>
