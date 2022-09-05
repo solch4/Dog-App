@@ -18,11 +18,11 @@ const validateText = (input) => {
   else if (isBlankSpace.test(input.name)) err.name = "Shouldn't be a blank space"
 
   if (!input.height_min) err.height_min = 'Write the min height'
-  else if (input.height_min < 10) err.height_min = "Should be taller than 10cm";
+  else if (input.height_min < 1) err.height_min = "Should be taller than 1cm";
   else if (isNaN(input.height_min)) err.height_min = "Should be a number";
 
   if (!input.height_max) err.height_max = 'Write the max height'
-  else if (input.height_max > 250) err.height_max = "Should be smaller than 250cm";
+  else if (input.height_max > 500) err.height_max = "Should be smaller than 500cm";
   else if (isNaN(input.height_max)) err.height_max = "Should be a number";
 
   if (input.height_min && input.height_max && parseInt(input.height_min) >= parseInt(input.height_max)) err.height_max = 'Max height should be bigger than min'
@@ -32,23 +32,23 @@ const validateText = (input) => {
   else if (isNaN(input.weight_min)) err.weight_min = "Should be a number";
   
   if (!input.weight_max) err.weight_max = "Write the max weight";
-  else if (input.weight_max > 100) err.weight_max = "Should be less heavy than 100kg";
+  else if (input.weight_max > 500) err.weight_max = "Should be less heavy than 500kg";
   else if (isNaN(input.weight_max)) err.weight_max = "Should be a number";
   
   if (input.weight_min && input.weight_max && parseInt(input.weight_min) >= parseInt(input.weight_max)) err.weight_max = 'Max weight should be bigger than min'
 
   // optionals
-  // if (!input.image) err.image = 'Insert the image URL'
-  /* else */ if (input.image && !imgRegexp.test(input.image.trim())) err.image = 'Should be a valid URL'
+  if (input.image && !imgRegexp.test(input.image.trim())) err.image = 'Should be a valid URL'
 
-  // if (!input.life_span_min) err.life_span_min = 'Write the min life span'
-  /* else */ if (input.life_span_min && input.life_span_min < 5) err.life_span_min = "Min life span should be bigger than 5 years";
+  if (input.life_span_min && input.life_span_min < 1) err.life_span_min = "Min life span should be bigger than 1 year";
   else if (input.life_span_min && isNaN(input.life_span_min)) err.life_span_min = "Should be a number";
 
-  // if (!input.life_span_max) err.life_span_max = 'Write the max life span'
-  /* else */ if (input.life_span_max && input.life_span_max > 50) err.life_span_max = "Max life span should be smaller than 50 years";
+  if (input.life_span_max && input.life_span_max > 500) err.life_span_max = "Max life span should be smaller than 500 years";
   else if (input.life_span_max && isNaN(input.life_span_max)) err.life_span_max = "Should be a number";
 
+  if (input.life_span_min && !input.life_span_max) err.life_span_min = 'Both life spans should be filled'
+  if (!input.life_span_min && input.life_span_max) err.life_span_max = 'Both life spans should be filled'
+  
   if (input.life_span_min && input.life_span_max && parseInt(input.life_span_min) >= parseInt(input.life_span_max)) err.life_span_max = 'Max life span should be bigger than min'
 
   return err
@@ -81,18 +81,12 @@ const CreatedDog = () => {
   const handleSubmit = e => {
     e.preventDefault()
     if (!input.name && !input.weight_min && !input.weight_max && !input.height_min && !input.height_max && !Object.keys(errors).length) alert('Please complete the form.')
-    else if(!errors.name && !errors.weight_min && !errors.weight_max && !errors.height_min && !errors.height_max) {
+    else if(!errors.name && !errors.weight_min && !errors.weight_max && !errors.height_min && !errors.height_max && !errors.image && !errors.life_span_min && !errors.life_span_max) {
       const newDog = {
+        ...input,
         name: input.name.trim(),
-        weight_min: input.weight_min,
-        weight_max: input.weight_max,
-        height_min: input.height_min,
-        height_max: input.height_max,
         image: input.image.trim(),
-        life_span_min: input.life_span_min,
-        life_span_max: input.life_span_max,
-        temperaments: tempsDB,
-        // ...input
+        temperaments: tempsDB
       };
       console.log(newDog);
       dispatch(createDogs(newDog));
@@ -122,7 +116,10 @@ const CreatedDog = () => {
     if(!tempsDB.includes(e.target.value)) setTempsDB([...tempsDB, e.target.value])
   }
 
-  const handleDelete = (e) => setTempsDB(tempsDB.filter((temp) => temp !== e.target.value))
+  const handleDelete = (e) => {
+    e.preventDefault()
+    setTempsDB(tempsDB.filter((temp) => temp !== e.target.value))
+  }
 
   const handleGoBack = () => navigate('/home')
 
