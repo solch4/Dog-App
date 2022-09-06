@@ -39,6 +39,7 @@ function rootReducer(state = initialState, action) {
       };
 
     case "ORDER_BY_NAME":
+      if (state.dogs === 'Dog not found :(') return { ...state } //para q la app no se rompa al intentar ordenar el string dog not found
       const orderedByName =
         action.payload === "ascendente"
           ? state.dogs.sort((a, b) => {
@@ -57,6 +58,7 @@ function rootReducer(state = initialState, action) {
       };
 
     case "ORDER_BY_WEIGHT":
+      if (state.dogs === 'Dog not found :(') return { ...state } //para q la app no se rompa al intentar ordenar el string dog not found
       const orderedByWeight =
         action.payload === "menor"
           ? state.dogs.sort((a, b) => {

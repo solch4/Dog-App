@@ -22,6 +22,7 @@ const validateText = (input) => {
 
   if (input.height_min && input.height_min < 1) err.height_min = "Should be taller than 1cm";
   else if (input.height_min && isNaN(input.height_min)) err.height_min = "Should be a number";
+  else if (input.name.length > 255) err.name = "Maximum number of characters: 255"
 
   if (input.height_max > 500) err.height_max = "Should be smaller than 500cm";
   else if (input.height_max && isNaN(input.height_max)) err.height_max = "Should be a number";

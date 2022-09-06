@@ -20,6 +20,7 @@ const validateText = (input) => {
 
   if (!input.name) err.name = "Write the name";
   else if (isBlankSpace.test(input.name)) err.name = "Shouldn't be a blank space"
+  else if (input.name.length > 255) err.name = "Maximum number of characters: 255"
 
   if (!input.height_min) err.height_min = 'Write the min height'
   else if (input.height_min < 1) err.height_min = "Should be taller than 1cm";
