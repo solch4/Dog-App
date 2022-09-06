@@ -5,6 +5,10 @@ import { getById, clearDetail, deleteDog } from "../actions/actions";
 import svgArr from '../assets/svg-arrow.svg'
 import noDog from '../assets/no-dog.svg'
 import '../styles/Detail.css'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 const Detail = () => {
   const {id} = useParams()
@@ -18,9 +22,34 @@ const Detail = () => {
   }, [dispatch, id])
 
   const handleDeleteDog = () => {
-    dispatch(deleteDog(id));
-    alert("The dog was successfully deleted from existence");
-    navigate("/home");
+    MySwal.fire({
+      icon: 'warning',
+      title: 'Are you sure you want to delete this dog?',
+      text: "You won't be able to revert this.",
+      showDenyButton: true,
+      confirmButtonText: 'Yes, delete it',
+      denyButtonText: 'No, cancel',
+      confirmButtonColor: "var(--clr-orange)",
+      denyButtonColor: "var(--clr-light-brown)",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteDog(id));
+        MySwal.fire({
+          icon: 'success',
+          title: 'Deleted!', 
+          text: 'The dog was successfully deleted from existence.', 
+          confirmButtonColor: "var(--clr-orange)",
+        })
+        navigate("/home");
+      } else if (result.isDenied) {
+        MySwal.fire({
+          icon: 'error',
+          title: 'Cancelled', 
+          text: 'The dog is safe!', 
+          confirmButtonColor: "var(--clr-orange)",
+        })
+      }
+    })
   }
   
   const handleEditDog = () => navigate(`/dogs/${id}/edit`);

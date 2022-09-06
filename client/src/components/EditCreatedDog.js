@@ -5,6 +5,10 @@ import { getById, editDog, getTemperaments } from "../actions/actions";
 import svgArr from '../assets/svg-arrow.svg'
 import '../styles/Detail.css'
 import { useState } from "react";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 // eslint-disable-next-line no-useless-escape
 const imgRegexp = new RegExp('^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$')
@@ -82,7 +86,16 @@ const EditCreatedDog = () => {
   const handleEditDog = e => {
     e.preventDefault()
     // si no hay ningún cambio no envía el form (espero q la solcito del futuro vuelva a ver esto y sepa mejorarlo)
-    if (!input.name && !input.height_min && !input.height_max && !input.weight_min && !input.weight_max && !input.image && !input.life_span_min && !input.life_span_max && !tempsDB.length) alert('There are no changes. If you want to edit the dog, please complete the form.')
+    if (!input.name && !input.height_min && !input.height_max && !input.weight_min && !input.weight_max && !input.image && !input.life_span_min && !input.life_span_max && !tempsDB.length) {
+      MySwal.fire({
+        icon: "error",
+        title: "There are no changes",
+        text: 'If you want to edit the dog, please complete the form.',
+        color: "var(--clr-dark-brown)",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "var(--clr-orange)",
+      });  
+    }
     else if(!Object.values(errors).length) {
       const editDataDog = {};
       if(input.name) editDataDog.name = input.name.trim();
@@ -93,7 +106,15 @@ const EditCreatedDog = () => {
       if(tempsDB.length) editDataDog.temperaments = tempsDB
       console.log('editDataDog',editDataDog);
       dispatch(editDog(editDataDog, id));
-      alert("The dog was successfully edited! \nIf you don't see any changes, please refresh the page.");
+      MySwal.fire({
+        icon: "success",
+        title: "The dog was successfully edited!",
+        text: "If you don't see any changes, please refresh the page.",
+        color: "var(--clr-dark-brown)",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "var(--clr-orange)",
+      });
+
       setInput({
         name: "",
         weight_min: "",
@@ -107,7 +128,15 @@ const EditCreatedDog = () => {
       });
       setTempsDB([])
       navigate('/home')
-    } else return alert('Please complete the form with the correct data.')
+    } else {
+      MySwal.fire({
+        icon: "error",
+        title: "Please complete the form with the correct data.",
+        color: "var(--clr-dark-brown)",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "var(--clr-orange)",
+      });  
+    }
   }
 
   const handleChange = (e) => {

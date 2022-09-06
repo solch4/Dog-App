@@ -1,3 +1,7 @@
+.swal2-confirm { color: var(--clr-dark-brown) !important; }
+.swal2-deny { color: white !important; }
+.swal2-title { font-family: var(--ff-nunito) !important; }
+
 .App {
   display: flex;
   flex-direction: column;

@@ -5,6 +5,10 @@ import { createDogs, getTemperaments } from "../actions/actions";
 import { useNavigate } from "react-router-dom";
 import svgArr from '../assets/svg-arrow.svg'
 import '../styles/CreatedDog.css'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 // eslint-disable-next-line no-useless-escape
 const imgRegexp = new RegExp('^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$')
@@ -80,7 +84,15 @@ const CreatedDog = () => {
   
   const handleSubmit = e => {
     e.preventDefault()
-    if (!input.name && !input.weight_min && !input.weight_max && !input.height_min && !input.height_max && !Object.keys(errors).length) alert('Please complete the form.')
+    if (!input.name && !input.weight_min && !input.weight_max && !input.height_min && !input.height_max && !Object.keys(errors).length) {
+      MySwal.fire({
+        icon: "error",
+        title: "Please complete the form",
+        color: "var(--clr-dark-brown)",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "var(--clr-orange)",
+      });  
+    }
     else if(!errors.name && !errors.weight_min && !errors.weight_max && !errors.height_min && !errors.height_max && !errors.image && !errors.life_span_min && !errors.life_span_max) {
       const newDog = {
         ...input,
@@ -90,7 +102,15 @@ const CreatedDog = () => {
       };
       console.log(newDog);
       dispatch(createDogs(newDog));
-      alert("Your dog is ready!");
+      MySwal.fire({
+        icon: "success",
+        title: "Your dog is ready!",
+        text: "If you don't see any changes, please refresh the page.",
+        color: "var(--clr-dark-brown)",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "var(--clr-orange)",
+      });
+
       setInput({
         name: "",
         weight_min: "",
@@ -104,7 +124,15 @@ const CreatedDog = () => {
       });
       setTempsDB([])
       navigate('/home')
-    } else return alert('Please complete the form with the correct data.')
+    } else {
+      MySwal.fire({
+        icon: "error",
+        title: "Please complete the form with the correct data.",
+        color: "var(--clr-dark-brown)",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "var(--clr-orange)",
+      });  
+    }
   }
 
   const handleChange = (e) => {

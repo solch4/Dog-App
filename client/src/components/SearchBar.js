@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getByName } from "../actions/actions.js";
 import "../styles/SearchBar.css";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 const SearchBar = ({ setMinPageNumber, setMaxPageNumber, setActualPage }) => {
   const dispatch = useDispatch();
@@ -11,7 +15,14 @@ const SearchBar = ({ setMinPageNumber, setMaxPageNumber, setActualPage }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (!nameInput.trim()) alert("Please write the name of the dog you want to find.");
+    if (!nameInput.trim()) {
+      MySwal.fire({
+        title: "Please write the name of the dog you want to find.",
+        color: "var(--clr-dark-brown)",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "var(--clr-orange)",
+      });  
+    }
     else {
       dispatch(getByName(nameInput.trim()));
       setActualPage(1);
