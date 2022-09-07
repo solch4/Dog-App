@@ -1,0 +1,17 @@
+.footer-container {
+  margin-top: .25rem;
+  background-color: var(--clr-white);
+  padding: 1rem;
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+}
+.footer-container a {
+  text-decoration: none;
+  font-weight: 700;
+  color: inherit;
+  transition: 0.1s;
+}
+.footer-container a:hover {
+  text-decoration: underline;
+}
