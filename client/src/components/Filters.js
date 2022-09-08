@@ -25,10 +25,9 @@ function Filters({ setMinPageNumber, setMaxPageNumber, setActualPage }) {
   return (
     <div className="filter-container">
     <span className="filter-title">Filter by: </span>
-    <select onChange={(e) => handleFilterTemperaments(e)}>
-      <option key={0} value="all">
-        All temperaments
-      </option>
+    <select defaultValue='DEFAULT' onChange={(e) => handleFilterTemperaments(e)}>
+      <option value="DEFAULT" disabled>Temperament</option>
+      <option key={0} value="all">All</option>
       {temperamentsState.length
         ? temperamentsState.map((t) => (
             <option key={t.id} value={t.name}>
@@ -38,7 +37,8 @@ function Filters({ setMinPageNumber, setMaxPageNumber, setActualPage }) {
         : null}
     </select>
 
-    <select onChange={(e) => handleFilterCreated(e)}>
+    <select defaultValue='DEFAULT' onChange={(e) => handleFilterCreated(e)}>
+      <option value="DEFAULT" disabled>Creation</option>
       <option value="all">All dogs</option>
       <option value="created">Created</option>
       <option value="api">API</option>

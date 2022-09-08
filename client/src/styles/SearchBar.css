@@ -1,6 +1,6 @@
 .search-bar {
   position: relative;
-  padding-bottom: 1.25rem;
+  padding-bottom: .75rem;
 }
 
 .search-input {
@@ -35,6 +35,6 @@
 
 @media (min-width: 500px) {
   .search-bar {
-    padding: .75rem;
+    padding: 0;
   }
 }

@@ -84,6 +84,7 @@
     letter-spacing: 0.01em;
     font-size: 1.35rem;
     font-weight: 800;
+    margin: 1.5rem;
   }
   .card-container {
     flex-direction: row;
@@ -93,9 +94,10 @@
   }
 }
 
-@media (min-width: 675px) {
+@media (min-width: 660px) {
   .sort-filter-container {
     margin-inline: .75rem;
+    margin: 1.5rem .75rem;
     flex-direction: row;
     justify-content: space-between;
   }

@@ -8,7 +8,9 @@ import Sort from './Sort.js'
 import Card from "./Card.js";
 import Pages from "./Pages.js";
 import Nav from "./Nav.js";
-import loader from '../assets/dog-run.gif'
+import Footer from "./Footer.js";
+// import loader from '../assets/dog-run.gif'
+import Loader from "./Loader.js";
 import noDog from '../assets/no-dog.svg'
 import '../styles/Home.css'
 
@@ -79,8 +81,8 @@ const Home = () => {
             })
           ) : (
             !dogs.length 
-            ? <img style={{margin:50}} width={100} src={loader} alt='Loading...' /> 
-            : <div className="home-dog-not-found"><img src={noDog} alt="" /><h3>Dog not found :(</h3></div>
+            ? <Loader /> 
+            : <div className="home-dog-not-found"><img width={150} src={noDog} alt="" /><h3>Dog not found :(</h3></div>
           )}
         </div>
         
@@ -92,8 +94,8 @@ const Home = () => {
           dogs={Array.isArray(dogs) ? dogs.length : 1}
           pages={pages}
         />
-
       </div>
+      <Footer />
     </div>
   );
 };
