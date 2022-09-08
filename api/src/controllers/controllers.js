@@ -13,17 +13,16 @@ const dataApi = async () => {
       height: dog.height.metric,
       life_span: dog.life_span,
       image: dog.image.url,
-      temperaments: dog.temperament //o temperaments?
+      temperaments: dog.temperament
     }
   })
   return infoDogs
 }
 
-//traemos info de la db que coincidan con los perros
+//traemos info de la db
 const dataDB = async () => {
-  //trabajamos sobre el Dog q requerimos
-  //estamoshaciendo la realción de dogs a temperaments. de n a m
   return await Dog.findAll({
+    // le pedimos q además de los datos del dog, me incluya los temperamentos asociados a ese dog
     include: {
       model: Temperaments,
       attributes: ['name'],

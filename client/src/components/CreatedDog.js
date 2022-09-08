@@ -101,7 +101,7 @@ const CreatedDog = () => {
         image: input.image.trim(),
         temperaments: tempsDB
       };
-      console.log(newDog);
+      // console.log(newDog);
       dispatch(createDogs(newDog));
       MySwal.fire({
         icon: "success",

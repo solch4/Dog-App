@@ -9,7 +9,6 @@ import Card from "./Card.js";
 import Pages from "./Pages.js";
 import Nav from "./Nav.js";
 import Footer from "./Footer.js";
-// import loader from '../assets/dog-run.gif'
 import Loader from "./Loader.js";
 import noDog from '../assets/no-dog.svg'
 import '../styles/Home.css'

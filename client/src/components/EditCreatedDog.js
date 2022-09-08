@@ -105,7 +105,7 @@ const EditCreatedDog = () => {
       if(input.life_span_min && input.life_span_max) editDataDog.life_span = `${input.life_span_min} - ${input.life_span_max} years`;
       if(input.image) editDataDog.image = input.image.trim();
       if(tempsDB.length) editDataDog.temperaments = tempsDB
-      console.log('editDataDog',editDataDog);
+      // console.log('editDataDog',editDataDog);
       dispatch(editDog(editDataDog, id));
       MySwal.fire({
         icon: "success",
