@@ -1,68 +1,42 @@
-![HenryLogo](https://d31uz8lwfmyn8g.cloudfront.net/Assets/logo-henry-white-lg.png)
-
 # Individual Project - Henry Dogs
 
-<img height="175" src="./dog.png" />
-
-## Objetivos del Proyecto
+## Objetivos
 - Construir una App utlizando React, Redux, Node y Sequelize.
 - Afirmar y conectar los conceptos aprendidos en la carrera.
 - Aprender mejores prácticas.
 - Aprender y practicar el workflow de GIT.
 
-El contenido de `client` fue creado usando: Create React App.
+## Proyecto
+El proyecto es una aplicación FullStack en la cual se puede visualizar alrededor de 170 razas de perros. La aplicación le permite al usuario filtrar por raza, temperamento y realizar diversos ordenamientos. Además, puede buscar por nombre, crear una raza nueva y editar o borrar una ya existente.
+Esta aplicación fue desarrollada como proyecto individual en el Bootcamp de soyHenry.
 
-## Enunciado
-La idea general es crear una aplicación en la cual se puedan ver distintas razas de perro junto con información relevante de las mismas utilizando la api externa [the dog api](https://thedogapi.com/) y a partir de ella poder, entre otras cosas:
-- Buscar perros
-- Filtrarlos / Ordenarlos
-- Agregar nuevos perros
+## Tecnologías
+El FrontEnd de la aplicación se encuentra desarrollado con React.js, Redux y CSS.
 
-### Endpoints/Flags utilizados
-- <https://api.thedogapi.com/v1/breeds>
-- <https://api.thedogapi.com/v1/breeds/search?q={raza_perro}>
+El BackEnd se encuentra desarrollado con NodeJS, Express y PostgreSQL.
 
-### Principales tecnologías usadas
-- React
-- Redux
-- Express
-- Sequelize - Postgres
+## Funciones
+- Visualizar +170 razas de perros.
+- Acceder a los detalles de cada uno.
+- Buscar, filtrar y ordenar las razas.
+- Visualizar por página.
+- Crear una nueva Raza.
+- Editar la raza creada.
+- Eliminar la raza creada.
 
-## Descripción de rutas
+## Screenshots
+<img width="350" src="./screenshots/ss-home-desktop.png" />
 
-__Pagina inicial__: una landing page con
-- Imagen de fondo representativa al proyecto.
-- Botón para ingresar al home (`Ruta principal`).
+<img width="350" src="./screenshots/ss-form.png" />
 
-__Ruta principal__: contiene
-- Input de búsqueda para encontrar razas de perros por nombre.
-- Área donde se ve el listado de razas de perros. Muestra su
-  - Imagen
-  - Nombre
-  - Peso
-  - Temperamento
-- Opciones para filtrar por:
-  - Temperamento
-  - Raza existente (las que vienen de la API) o agregadas manualmente (creadas mediante el form)
-- Opciones para ordenar tanto ascendentemente como descendentemente las razas de perro por:
-  - Orden alfabético
-  - Peso
-- Paginado para ir buscando y mostrando las siguientes razas, mostrando 8 razas por página.
+<img width="350" src="./screenshots/ss-search.png" />
 
-__Ruta de detalle de raza de perro__: contiene
+<img width="350" src="./screenshots/ss-detail.png" />
 
-- Los campos mostrados en la ruta principal para cada raza (imagen, nombre y temperamento)
-- Altura
-- Peso
-- Años de vida
-> __Nota:__ Los perros creados en la base de datos además incluyen un botón para eliminarlos
+<img width="250" src="./screenshots/ss-home-mobile.png" />
 
-__Ruta de creación de raza de perro__: contiene
-
-- Un formulario __controlado con JavaScript__ con los siguientes campos:
-  - Nombre
-  - Altura
-  - Peso
-  - Años de vida
-- Posibilidad de agregar uno o más temperamentos
-- Botón para crear una nueva raza de perro
+<!-- ![](./screenshots/ss-detail.png)
+![](./screenshots/ss-form.png)
+![](./screenshots/ss-home-desktop.png)
+![](./screenshots/ss-home-mobile.png)
+![](./screenshots/ss-search.png) -->
