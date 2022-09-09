@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -15,6 +15,7 @@ import '../styles/Home.css'
 
 const Home = () => {
   const dispatch = useDispatch();
+  const appTopRef = useRef()
   const dogs = useSelector((state) => state.dogs);
   const [order, setOrder] = useState(""); //este state sólo sirve para re-renderizar la pág cuando hacemos un sort
 
@@ -28,6 +29,7 @@ const Home = () => {
   const [maxPageNumber, setMaxPageNumber] = useState(5)
   const pages = (pageNumber) => {
     setActualPage(pageNumber);
+    appTopRef.current?.scrollIntoView({ behavior: 'smooth' })
     if(pageNumber >= maxPageNumber) {
       setMinPageNumber(minPageNumber+4)
       setMaxPageNumber(maxPageNumber+4)
@@ -47,7 +49,7 @@ const Home = () => {
   }
 
   return (
-    <div className="App">
+    <div ref={appTopRef} className="App">
       <Nav setMinPageNumber={setMinPageNumber} setMaxPageNumber={setMaxPageNumber} setActualPage={setActualPage} />
       <div className="home-container">
         <div className="sort-filter-container">
