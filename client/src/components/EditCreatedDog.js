@@ -116,18 +116,6 @@ const EditCreatedDog = () => {
         confirmButtonColor: "var(--clr-orange)",
       });
 
-      setInput({
-        name: "",
-        weight_min: "",
-        weight_max: "",
-        height_min: "",
-        height_max: "",
-        image: "",
-        life_span_min: "",
-        life_span_max: "",
-        temperaments: [],
-      });
-      setTempsDB([])
       navigate('/home')
     } else {
       MySwal.fire({

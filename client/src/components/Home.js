@@ -17,11 +17,11 @@ const Home = () => {
   const dispatch = useDispatch();
   const appTopRef = useRef()
   const dogs = useSelector((state) => state.dogs);
-  const [order, setOrder] = useState(""); //este state sólo sirve para re-renderizar la pág cuando hacemos un sort
+  const [, setOrder] = useState(""); //este state sólo sirve para re-renderizar la pág cuando hacemos un sort
 
   //paginado
   const [actualPage, setActualPage] = useState(1); //arrancamos desde la page 1
-  const [dogsPerPage, setDogsPerPage] = useState(8); //cuantos dogs por page
+  const dogsPerPage = 8; //cuantos dogs por page
   const indexOfLastDog = actualPage * dogsPerPage;
   const indexOfFirstDog = indexOfLastDog - dogsPerPage;
   const actualDogs = dogs.slice(indexOfFirstDog, indexOfLastDog); //recortamos el arreglo con todos los dogs
@@ -45,6 +45,9 @@ const Home = () => {
   }, [dispatch, dogs]);
   
   const handleRefresh = () => {
+    setActualPage(1)
+    setMinPageNumber(0)
+    setMaxPageNumber(5)  
     dispatch(getDogs());
   }
 

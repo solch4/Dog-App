@@ -12,17 +12,15 @@ const Pages = ({ actualPage, minPageNumber, maxPageNumber, dogs, dogsPerPage, pa
   const handleNext = () => (actualPage!==pageNumbers.length) && pages(actualPage + 1)
 
   return (
-    <nav>
-      <ul className="pages">
-        <li className={actualPage === 1 ? 'pageNumber disabled' : "pageNumber"} onClick={handlePrev}>Prev</li>
-        {pageNumbers && pageNumbers.slice(minPageNumber, maxPageNumber).map((num) => (
-          <li className={actualPage === num ? 'pageNumber activePage' : "pageNumber"} key={num} onClick={() => pages(num)}>
-            {num}
-          </li>
-        ))}
-        <li className={actualPage === pageNumbers.length ? 'pageNumber disabled' : "pageNumber"} onClick={handleNext}>Next</li>
-      </ul>
-    </nav>
+    <ul className="pages">
+      <li className={actualPage === 1 ? 'pageNumber disabled' : "pageNumber"} onClick={handlePrev}>Prev</li>
+      {pageNumbers.slice(minPageNumber, maxPageNumber).map((num) => (
+        <li className={actualPage === num ? 'pageNumber activePage' : "pageNumber"} key={num} onClick={() => pages(num)}>
+          {num}
+        </li>
+      ))}
+      <li className={actualPage === pageNumbers.length ? 'pageNumber disabled' : "pageNumber"} onClick={handleNext}>Next</li>
+    </ul>
   );
 };
 

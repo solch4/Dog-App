@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getById, clearDetail, deleteDog } from "../actions/actions";
@@ -16,10 +16,15 @@ const Detail = () => {
   const navigate = useNavigate()
   const details = useSelector(state => state.details)
   
+  //component did mount/update
   useEffect(() => {
     dispatch(getById(id))
-    dispatch(clearDetail())
   }, [dispatch, id])
+
+  //component will unmount
+  useEffect(() => {
+    return () => dispatch(clearDetail())
+  }, [dispatch])
 
   const handleDeleteDog = () => {
     MySwal.fire({
@@ -71,23 +76,19 @@ const Detail = () => {
               <h3 className="detail-aboutme">About me</h3>
               <p><span className="detail-category">Height: </span>{details.height} cm</p>
               <p><span className="detail-category">Weight: </span>{details.weight} kg</p>
-              {
-                details.life_span && details.life_span[0] !== ' '
+              {details.life_span && details.life_span[0] !== ' '
                 ? <p><span className="detail-category">Life span: </span>{details.life_span}</p>
-                : null
-              }
+                : null}
+
               {/* dogs created in db */}
-              {
-                Array.isArray(details.temperaments) && details.temperaments.length
+              {Array.isArray(details.temperaments) && details.temperaments.length
                 ? <p>My temperament is: {details.temperaments.map(t => Object.values(t)).join(', ')}.</p>
-                : null
-              }
+                : null}
               {/* dogs api */}
-              {
-                typeof details.temperaments === 'string' && details.temperaments.length
+              {typeof details.temperaments === 'string' && details.temperaments.length
                 ? <p>{details.temperaments.length ? `My temperament is: ${details.temperaments}.` : null}</p>
-                : null
-              }
+                : null}
+                
               <div className="detail-delete-edit-btn-container">
                 {details.createdInDB && <button className="detail-delete-edit-btn" onClick={handleEditDog}>Edit</button>}
                 {details.createdInDB && <button className="detail-delete-edit-btn detail-delete-btn" onClick={handleDeleteDog}>Delete</button>}

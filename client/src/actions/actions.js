@@ -126,12 +126,14 @@ export function deleteDog (id) {
 
 export function editDog (payload, id) {
   return async function (dispatch){
-    var res = await axios.put(`http://localhost:3001/dogs/${id}/edit`, payload)
-    return(
+    try {
+      var res = await axios.put(`http://localhost:3001/dogs/${id}/edit`, payload)
+      alert(res.data)
       dispatch({
-        type: 'EDIT_DOG',
-        payload: res.data
+        type: 'EDIT_DOG'
       })
-    )
+    } catch (e) {
+      alert(e.response.data)
+    }
   }
 }

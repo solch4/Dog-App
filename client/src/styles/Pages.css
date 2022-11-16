@@ -27,10 +27,6 @@
 .disabled {
   background-color: var(--clr-white);
   color: var(--clr-grey);
-}
-.disabled:hover {
-  background-color: var(--clr-white);
-  color: var(--clr-grey);
   cursor: not-allowed;
 }
 
