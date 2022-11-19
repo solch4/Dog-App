@@ -29,6 +29,10 @@
   color: var(--clr-grey);
   cursor: not-allowed;
 }
+.disabled:hover {
+  background-color: var(--clr-white);
+  color: var(--clr-grey);
+}
 
 .activePage{
   background-color: var(--clr-orange);
