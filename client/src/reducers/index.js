@@ -3,6 +3,11 @@ const initialState = {
   allDogs: [], //es una copia de dogs, sirve para hacer el filtro sobre esta prop y no sobre dogs para q no haya problemas como q filtramos un array ya filtrado
   temperaments: [],
   details: [],
+
+  //pagination states
+  actualPage: 1,
+  minPageNumber: 0,
+  maxPageNumber: 5
 };
 
 function rootReducer(state = initialState, action) {
@@ -121,6 +126,25 @@ function rootReducer(state = initialState, action) {
     case "EDIT_DOG":
       return {
         ...state,
+      };
+
+    //pagination
+    case 'SET_ACTUAL_PAGE':
+      return {
+        ...state,
+        actualPage: action.payload
+      };
+
+    case 'SET_MIN_PAGE_NUMBER':
+      return {
+        ...state,
+        minPageNumber: action.payload
+      };
+
+    case 'SET_MAX_PAGE_NUMBER':
+      return {
+        ...state,
+        maxPageNumber: action.payload
       };
 
     default:

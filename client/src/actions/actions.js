@@ -137,3 +137,23 @@ export function editDog (payload, id) {
     }
   }
 }
+
+//pagination
+export function setActualPage (n) {
+  return {
+    type: 'SET_ACTUAL_PAGE',
+    payload: n
+  }
+}
+export function setMinPageNumber (n) {
+  return {
+    type: 'SET_MIN_PAGE_NUMBER',
+    payload: n
+  }
+}
+export function setMaxPageNumber (n) {
+  return {
+    type: 'SET_MAX_PAGE_NUMBER',
+    payload: n
+  }
+}

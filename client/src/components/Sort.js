@@ -1,24 +1,24 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { sortByName, sortByWeight } from "../actions/actions";
+import { setActualPage, setMaxPageNumber, setMinPageNumber, sortByName, sortByWeight } from "../actions/actions";
 import '../styles/Sort.css'
 
-const Sort = ({  setMinPageNumber, setMaxPageNumber, setActualPage, setOrder }) => {
+const Sort = ({ setOrder }) => {
   const dispatch = useDispatch();
 
   const handleSort = (e) => {
     if (e.target.value === 'ascendente' || e.target.value === 'descendente') {
       dispatch(sortByName(e.target.value));
-      setActualPage(1);
-      setMinPageNumber(0)
-      setMaxPageNumber(5)  
+      dispatch(setActualPage(1))
+      dispatch(setMinPageNumber(0))
+      dispatch(setMaxPageNumber(5))
       setOrder(`sort by ${e.target.value}`);  
     }
     else if (e.target.value === 'mayor' || e.target.value === 'menor') {
       dispatch(sortByWeight(e.target.value));
-      setActualPage(1);
-      setMinPageNumber(0)
-      setMaxPageNumber(5)
+      dispatch(setActualPage(1))
+      dispatch(setMinPageNumber(0))
+      dispatch(setMaxPageNumber(5))
       setOrder(`sort by ${e.target.value}`);  
     }
   }

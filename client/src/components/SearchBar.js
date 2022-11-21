@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getByName } from "../actions/actions.js";
+import { getByName, setActualPage, setMaxPageNumber, setMinPageNumber } from "../actions/actions.js";
 import "../styles/SearchBar.css";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
 const MySwal = withReactContent(Swal)
 
-const SearchBar = ({ setMinPageNumber, setMaxPageNumber, setActualPage }) => {
+const SearchBar = () => {
   const dispatch = useDispatch();
   const [nameInput, setNameInput] = useState("");
 
@@ -25,9 +25,9 @@ const SearchBar = ({ setMinPageNumber, setMaxPageNumber, setActualPage }) => {
     }
     else {
       dispatch(getByName(nameInput.trim()));
-      setActualPage(1);
-      setMinPageNumber(0)
-      setMaxPageNumber(5)  
+      dispatch(setActualPage(1))
+      dispatch(setMinPageNumber(0))
+      dispatch(setMaxPageNumber(5)) 
       setNameInput('')
     }
   };
