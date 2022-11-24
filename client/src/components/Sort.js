@@ -7,20 +7,12 @@ const Sort = ({ setOrder }) => {
   const dispatch = useDispatch();
 
   const handleSort = (e) => {
-    if (e.target.value === 'ascendente' || e.target.value === 'descendente') {
-      dispatch(sortByName(e.target.value));
-      dispatch(setActualPage(1))
-      dispatch(setMinPageNumber(0))
-      dispatch(setMaxPageNumber(5))
-      setOrder(`sort by ${e.target.value}`);  
-    }
-    else if (e.target.value === 'mayor' || e.target.value === 'menor') {
-      dispatch(sortByWeight(e.target.value));
-      dispatch(setActualPage(1))
-      dispatch(setMinPageNumber(0))
-      dispatch(setMaxPageNumber(5))
-      setOrder(`sort by ${e.target.value}`);  
-    }
+    dispatch(setActualPage(1))
+    dispatch(setMinPageNumber(0))
+    dispatch(setMaxPageNumber(5))
+    setOrder(e.target.value)
+    if (e.target.value === 'ascendente' || e.target.value === 'descendente') dispatch(sortByName(e.target.value));
+    if (e.target.value === 'mayor' || e.target.value === 'menor') dispatch(sortByWeight(e.target.value));
   }
 
   return (
