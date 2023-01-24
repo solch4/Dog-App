@@ -5,9 +5,10 @@
 - Afirmar y conectar los conceptos aprendidos en la carrera.
 - Aprender mejores prácticas.
 - Aprender y practicar el workflow de GIT.
+- Usar y practicar testing.
 
 ## Proyecto
-El proyecto es una aplicación FullStack en la cual se puede visualizar alrededor de 170 razas de perros. La aplicación le permite al usuario filtrar por raza, temperamento y realizar diversos ordenamientos. Además, puede buscar por nombre, crear una raza nueva y editar o borrar una ya existente.
+El proyecto es una aplicación Full Stack en la cual se puede visualizar alrededor de 170 razas de perros. La aplicación le permite al usuario filtrar por raza, temperamento y realizar diversos ordenamientos. Además, puede buscar por nombre, crear una raza nueva y editar o borrar una ya existente.
 Esta aplicación fue desarrollada como proyecto individual en el Bootcamp de soyHenry.
 
 ## Tecnologías
